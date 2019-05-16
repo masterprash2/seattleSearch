@@ -76,7 +76,7 @@ class SearchInteractorTest {
     }
 
     fun getResponse(): SearchResults {
-        val readFrom = Buffer().readFrom(javaClass.classLoader.getResourceAsStream("valid.json"))
+        val readFrom = Buffer().readFrom(javaClass.classLoader.getResourceAsStream("validsearch.json"))
         val build = Moshi.Builder().build()
         return build.adapter(SearchResults::class.java).fromJson(readFrom)!!
     }

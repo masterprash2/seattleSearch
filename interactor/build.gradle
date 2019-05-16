@@ -31,10 +31,6 @@ android {
         test.resources.srcDirs += 'src/test/resources'
     }
 
-    dataBinding {
-        enabled = true
-    }
-
     compileOptions {
         targetCompatibility 1.8
         sourceCompatibility 1.8
