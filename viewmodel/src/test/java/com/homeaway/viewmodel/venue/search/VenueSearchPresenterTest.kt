@@ -1,6 +1,7 @@
 package com.homeaway.viewmodel.venue.search
 
-import com.homeaway.interactor.search.VenueListItemModel
+import com.homeaway.interactor.search.VenueListItemData
+import com.homeaway.viewmodel.venue.search.item.VenueListItemModel
 import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
@@ -90,21 +91,20 @@ class VenueSearchPresenterTest {
 
 
     private fun createVenue(): List<VenueListItemModel> {
-        return Arrays.asList(createVenueModel())
+        return Arrays.asList(VenueListItemModel(createVenueModel()))
 //
 //        val readFrom = Buffer().readFrom(javaClass.classLoader.getResourceAsStream("valid.json"))
 //        val build = Moshi.Builder().build()
 //        return build.adapter(SearchResults::class.java).fromJson(readFrom)!!.response.venues
     }
 
-    private fun createVenueModel(): VenueListItemModel {
-        return VenueListItemModel("anyId").apply {
-            category.set("Category")
-            name.set("name")
-            distance.set("Distance")
-            isFavorite.set(true)
-
-        }
+    private fun createVenueModel(): VenueListItemData {
+        return VenueListItemData(
+            id = "anyId",
+            category = "Category",
+            name = "name",
+            distance = "Distance"
+        )
     }
 
 

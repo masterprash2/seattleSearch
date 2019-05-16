@@ -1,7 +1,8 @@
 package com.homeaway.viewmodel.venue.search
 
-import com.homeaway.interactor.search.VenueListItemModel
+import com.homeaway.interactor.search.VenueListItemData
 import com.homeaway.viewmodel.venue.BasePresenter
+import com.homeaway.viewmodel.venue.search.item.VenueListItemModel
 import javax.inject.Inject
 
 class VenueSearchPresenter @Inject constructor(private val venueSearchViewData: VenueSearchViewData)
@@ -24,6 +25,7 @@ class VenueSearchPresenter @Inject constructor(private val venueSearchViewData: 
         venueSearchViewData.isContentAvailable.set(false)
         updateEmptyResponseText()
     }
+
 
     private fun updateEmptyResponseText() {
         if(venueSearchViewData.isErrorLoading.get()) {

@@ -1,11 +1,10 @@
 package com.homeaway.interactor
 
 import com.homeaway.entity.search.SearchResults
-import com.homeaway.entity.search.Venue
 import com.homeaway.gateway.LocationGateway
 import com.homeaway.gateway.VenuesGateway
 import com.homeaway.gateway.data.Response
-import com.homeaway.interactor.search.VenueListItemModel
+import com.homeaway.interactor.search.VenueListItemData
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.whenever
 import com.squareup.moshi.Moshi
@@ -29,12 +28,12 @@ class SearchInteractorTest {
         venuesGateway = Mockito.mock(VenuesGateway::class.java)
         locationGateway = Mockito.mock(LocationGateway::class.java)
         whenever(locationGateway.calculateDistance(any(), any(), any(), any())).thenReturn(1234.0)
-        interactor = SearchInteractor(venuesGateway,locationGateway)
+        interactor = SearchInteractor(venuesGateway, locationGateway)
     }
 
     @Test
     fun success() {
-        val observer = TestObserver<Response<List<VenueListItemModel>>>()
+        val observer = TestObserver<Response<List<VenueListItemData>>>()
         whenever(venuesGateway.getSearchResults("coffee")).thenReturn(
             Observable.just(
                 Response<SearchResults>(
@@ -45,22 +44,22 @@ class SearchInteractorTest {
         )
         interactor.search("coffee").subscribe(observer)
         observer.assertValueCount(1)
-        val  resp = observer.values().first();
+        val resp = observer.values().first();
         assertTrue(resp.success)
         assertNotNull(resp.response)
-        assertEquals(1,resp.response!!.size)
+        assertEquals(1, resp.response!!.size)
 
         val itemViewModel = resp.response!!.first();
-        assertEquals("Mr. Purple",itemViewModel.name.get())
-        assertEquals("Hotel Bar",itemViewModel.category.get())
-        assertEquals("5642aef9498e51025cf4a7a5",itemViewModel.id)
+        assertEquals("Mr. Purple", itemViewModel.name)
+        assertEquals("Hotel Bar", itemViewModel.category)
+        assertEquals("5642aef9498e51025cf4a7a5", itemViewModel.id)
 
     }
 
 
     @Test
     fun failure() {
-        val observer = TestObserver<Response<List<VenueListItemModel>>>()
+        val observer = TestObserver<Response<List<VenueListItemData>>>()
         whenever(venuesGateway.getSearchResults("coffee")).thenReturn(
             Observable.just(
                 Response<SearchResults>(
@@ -76,7 +75,7 @@ class SearchInteractorTest {
 
     }
 
-    fun getResponse() : SearchResults {
+    fun getResponse(): SearchResults {
         val readFrom = Buffer().readFrom(javaClass.classLoader.getResourceAsStream("valid.json"))
         val build = Moshi.Builder().build()
         return build.adapter(SearchResults::class.java).fromJson(readFrom)!!
