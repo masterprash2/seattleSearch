@@ -64,6 +64,28 @@ class VenueSearchPresenterTest {
         assertEquals("No results found", data.emptyMessage.get())
     }
 
+    @Test
+    fun testReset() {
+        presenter.reset()
+        assertFalse(data.isLoading.get())
+        assertFalse(data.isErrorLoading.get())
+        assertFalse(data.isContentAvailable.get())
+        assertNull(data.results.get())
+        assertEquals("Search Venues", data.emptyMessage.get())
+    }
+
+    @Test
+    fun testResetAfterSuccessResponse() {
+        checkSuccessWithResults()
+        testReset()
+    }
+
+    @Test
+    fun testResetAfterFailedReponse() {
+        checkFailedWithPreExistingResult()
+        testReset()
+    }
+
 
     @After
     fun tearDown() {

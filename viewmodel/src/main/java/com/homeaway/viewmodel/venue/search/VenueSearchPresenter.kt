@@ -35,7 +35,11 @@ class VenueSearchPresenter(val venueSeachData: VenueSeachData) {
     }
 
     fun reset() {
+        venueSeachData.results.set(null)
         venueSeachData.searchText.set(null)
+        venueSeachData.isLoading.set(false)
+        venueSeachData.isErrorLoading.set(false)
+        venueSeachData.isContentAvailable.set(false)
         updateEmptyResponseText()
     }
 
