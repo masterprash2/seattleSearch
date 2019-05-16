@@ -36,6 +36,11 @@ android {
         sourceCompatibility 1.8
     }
 
+    sourceSets {
+        test.resources.srcDirs += 'src/test/resources'
+    }
+
+
 
 }
 
@@ -46,4 +51,18 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+
+    implementation "io.reactivex.rxjava2:rxjava:$rootProject.rxJavaVersion"
+    implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rxAndroidVersion"
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
+
+    implementation project(':interactor')
+    implementation project(':gateway')
+    implementation project(':entity')
+    implementation 'com.squareup.okio:okio:2.2.2'
+    implementation("com.squareup.moshi:moshi-kotlin:1.8.0")
+
+    testImplementation 'org.mockito:mockito-core:2.27.0'
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0"
+
 }

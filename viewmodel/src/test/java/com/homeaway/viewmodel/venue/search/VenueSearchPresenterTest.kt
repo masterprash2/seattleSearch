@@ -1,5 +1,6 @@
 package com.homeaway.viewmodel.venue.search
 
+import com.homeaway.interactor.search.VenueListItemModel
 import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
@@ -48,11 +49,12 @@ class VenueSearchPresenterTest {
 
     @Test
     fun checkSuccessWithResults() {
-        presenter.handleSuccess(Arrays.asList(1))
+        presenter.handleSuccess(createVenue())
         assertFalse(data.isLoading.get())
         assertFalse(data.isErrorLoading.get())
         assertEquals(1, data.results.get()?.size)
     }
+
 
     @Test
     fun checkSuccessWithoutResults() {
@@ -84,6 +86,25 @@ class VenueSearchPresenterTest {
     fun testResetAfterFailedReponse() {
         checkFailedWithPreExistingResult()
         testReset()
+    }
+
+
+    private fun createVenue(): List<VenueListItemModel> {
+        return Arrays.asList(createVenueModel())
+//
+//        val readFrom = Buffer().readFrom(javaClass.classLoader.getResourceAsStream("valid.json"))
+//        val build = Moshi.Builder().build()
+//        return build.adapter(SearchResults::class.java).fromJson(readFrom)!!.response.venues
+    }
+
+    private fun createVenueModel(): VenueListItemModel {
+        return VenueListItemModel("anyId").apply {
+            category.set("Category")
+            name.set("name")
+            distance.set("Distance")
+            isFavorite.set(true)
+
+        }
     }
 
 

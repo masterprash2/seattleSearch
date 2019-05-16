@@ -1,5 +1,8 @@
 package com.homeaway.viewmodel.venue.search
 
+import com.homeaway.entity.search.Venue
+import com.homeaway.interactor.search.VenueListItemModel
+
 class VenueSearchPresenter(val venueSeachData: VenueSeachData) {
 
     fun showLoading() {
@@ -14,7 +17,7 @@ class VenueSearchPresenter(val venueSeachData: VenueSeachData) {
         updateEmptyResponseText()
     }
 
-    fun handleSuccess(resultsList: List<Any>) {
+    fun handleSuccess(resultsList: List<VenueListItemModel>) {
         venueSeachData.isErrorLoading.set(false)
         venueSeachData.isLoading.set(false)
         venueSeachData.results.set(resultsList)

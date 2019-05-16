@@ -1,4 +1,4 @@
-package com.homeaway.interactor;
+package com.homeaway.entity;
 
 import org.junit.Test;
 
