@@ -1,13 +1,14 @@
 package com.homeaway.viewmodel.venue.search
 
 import com.homeaway.interactor.search.VenueListItemModel
+import com.homeaway.viewmodel.venue.BasePresenter
 import javax.inject.Inject
 
-class VenueSearchPresenter @Inject constructor(val venueSearchViewData: VenueSearchViewData) {
+class VenueSearchPresenter @Inject constructor(private val venueSearchViewData: VenueSearchViewData)
+    : BasePresenter<VenueSearchViewData>(venueSearchViewData) {
 
-    fun showLoading() {
-        venueSearchViewData.isErrorLoading.set(false)
-        venueSearchViewData.isLoading.set(true)
+    override fun showLoading() {
+        super.showLoading()
         updateEmptyResponseText()
     }
 

@@ -6,6 +6,7 @@ import com.google.auto.factory.Provided
 import com.homeaway.gateway.data.Response
 import com.homeaway.interactor.SearchInteractor
 import com.homeaway.interactor.search.VenueListItemModel
+import com.homeaway.viewmodel.venue.BaseViewModel
 import com.homeaway.viewmodel.venue.ViewModelFactory
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -14,13 +15,12 @@ import io.reactivex.disposables.Disposable
 class VenueSearchViewModel(
     @Provided private val presenter: VenueSearchPresenter,
     @Provided private val searchInteractor: SearchInteractor
-) : ViewModel() {
+) : BaseViewModel() {
 
     private var searchDisposable : Disposable? = null
-    private val compositeDisposable = CompositeDisposable()
 
     init {
-        compositeDisposable.add(getViewData().observeSearchText().subscribe {
+        add(getViewData().observeSearchText().subscribe {
             searchDisposable?.dispose()
             search(it)
         })
@@ -44,7 +44,7 @@ class VenueSearchViewModel(
         searchDisposable = searchInteractor.search(value).subscribe {
             handleResponse(it)
         }
-        compositeDisposable.add(searchDisposable!!)
+        add(searchDisposable!!)
     }
 
     private fun handleResponse(it: Response<List<VenueListItemModel>>) {
@@ -57,16 +57,11 @@ class VenueSearchViewModel(
     }
 
     fun retry() {
-        search(presenter.venueSearchViewData.getSearchText())
+        search(presenter.viewData.getSearchText())
     }
 
-
-    override fun onCleared() {
-        compositeDisposable.dispose()
-        super.onCleared()
-    }
 
     fun getViewData(): VenueSearchViewData {
-        return presenter.venueSearchViewData
+        return presenter.viewData
     }
 }

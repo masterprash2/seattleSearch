@@ -2,6 +2,8 @@ package com.homeaway.seattlesearch.activity.di
 
 import androidx.lifecycle.ViewModelProvider
 import com.homeaway.viewmodel.venue.ViewModelFactory
+import com.homeaway.viewmodel.venue.detail.DetailViewModel
+import com.homeaway.viewmodel.venue.detail.DetailViewModelFactory
 import com.homeaway.viewmodel.venue.search.VenueSearchViewModel
 import com.homeaway.viewmodel.venue.search.VenueSearchViewModelFactory
 import dagger.Module
@@ -15,6 +17,13 @@ class ViewModelModule {
     @IntoMap
     @ViewModelKey(VenueSearchViewModel::class)
     fun searchViewModelFactory(factory: VenueSearchViewModelFactory): ViewModelFactory {
+        return factory
+    }
+
+    @Provides
+    @IntoMap
+    @ViewModelKey(DetailViewModel::class)
+    fun detailViewModelFactory(factory: DetailViewModelFactory): ViewModelFactory {
         return factory
     }
 
