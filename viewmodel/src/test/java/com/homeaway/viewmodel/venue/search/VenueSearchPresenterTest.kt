@@ -35,7 +35,7 @@ class VenueSearchPresenterTest {
 
     @Test
     fun checkFailedFresh() {
-        presenter.responseFailed()
+        presenter.showError()
         assertFalse(viewData.isLoading.get())
         assertTrue(viewData.isErrorLoading.get())
         assertEquals("Network Error", viewData.emptyMessage.get())

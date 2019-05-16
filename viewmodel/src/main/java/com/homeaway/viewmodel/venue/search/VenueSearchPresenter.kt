@@ -12,9 +12,8 @@ class VenueSearchPresenter @Inject constructor(private val venueSearchViewData: 
         updateEmptyResponseText()
     }
 
-    fun responseFailed() {
-        venueSearchViewData.isErrorLoading.set(true)
-        venueSearchViewData.isLoading.set(false)
+    override fun showError() {
+        super.showError()
         updateEmptyResponseText()
     }
 

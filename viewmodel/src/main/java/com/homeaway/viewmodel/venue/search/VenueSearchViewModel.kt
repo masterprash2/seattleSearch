@@ -1,6 +1,5 @@
 package com.homeaway.viewmodel.venue.search
 
-import androidx.lifecycle.ViewModel
 import com.google.auto.factory.AutoFactory
 import com.google.auto.factory.Provided
 import com.homeaway.gateway.data.Response
@@ -8,7 +7,6 @@ import com.homeaway.interactor.SearchInteractor
 import com.homeaway.interactor.search.VenueListItemModel
 import com.homeaway.viewmodel.venue.BaseViewModel
 import com.homeaway.viewmodel.venue.ViewModelFactory
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 
 @AutoFactory(implementing = [ViewModelFactory::class])
@@ -51,7 +49,7 @@ class VenueSearchViewModel(
         if (it.success) {
             presenter.handleSuccess(it.response!!)
         } else {
-            presenter.responseFailed()
+            presenter.showError()
         }
 
     }

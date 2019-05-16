@@ -7,4 +7,9 @@ abstract class BasePresenter<T : BaseViewData>(val viewData: T) {
         viewData.isLoading.set(true)
     }
 
+    open fun showError() {
+        viewData.isErrorLoading.set(true)
+        viewData.isLoading.set(false)
+    }
+
 }
