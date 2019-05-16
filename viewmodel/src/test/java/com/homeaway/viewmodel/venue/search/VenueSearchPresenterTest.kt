@@ -10,35 +10,35 @@ import java.util.*
 class VenueSearchPresenterTest {
 
     lateinit var presenter: VenueSearchPresenter
-    lateinit var data: VenueSeachData
+    lateinit var viewData: VenueSearchViewData
 
     @Before
     fun setUp() {
-        data = VenueSeachData()
-        presenter = VenueSearchPresenter(data)
+        viewData = VenueSearchViewData()
+        presenter = VenueSearchPresenter(viewData)
     }
 
     @Test
     fun freshLaunchCheck() {
         presenter.reset()
-        assertFalse(data.isLoading.get())
-        assertFalse(data.isErrorLoading.get())
-        assertEquals("Search Venues", data.emptyMessage.get())
+        assertFalse(viewData.isLoading.get())
+        assertFalse(viewData.isErrorLoading.get())
+        assertEquals("Search Venues", viewData.emptyMessage.get())
     }
 
     @Test
     fun checkLoader() {
         presenter.showLoading()
-        assertTrue(data.isLoading.get())
-        assertFalse(data.isErrorLoading.get())
+        assertTrue(viewData.isLoading.get())
+        assertFalse(viewData.isErrorLoading.get())
     }
 
     @Test
     fun checkFailedFresh() {
         presenter.responseFailed()
-        assertFalse(data.isLoading.get())
-        assertTrue(data.isErrorLoading.get())
-        assertEquals("Network Error", data.emptyMessage.get())
+        assertFalse(viewData.isLoading.get())
+        assertTrue(viewData.isErrorLoading.get())
+        assertEquals("Network Error", viewData.emptyMessage.get())
     }
 
     @Test
@@ -50,30 +50,30 @@ class VenueSearchPresenterTest {
     @Test
     fun checkSuccessWithResults() {
         presenter.handleSuccess(createVenue())
-        assertFalse(data.isLoading.get())
-        assertFalse(data.isErrorLoading.get())
-        assertEquals(1, data.results.get()?.size)
+        assertFalse(viewData.isLoading.get())
+        assertFalse(viewData.isErrorLoading.get())
+        assertEquals(1, viewData.results.get()?.size)
     }
 
 
     @Test
     fun checkSuccessWithoutResults() {
-        data.searchText.set("Coffee")
+        viewData.setSearchText("Coffee")
         presenter.handleSuccess(Arrays.asList())
-        assertFalse(data.isLoading.get())
-        assertFalse(data.isErrorLoading.get())
-        assertEquals(0, data.results.get()?.size)
-        assertEquals("No results found", data.emptyMessage.get())
+        assertFalse(viewData.isLoading.get())
+        assertFalse(viewData.isErrorLoading.get())
+        assertEquals(0, viewData.results.get()?.size)
+        assertEquals("No results found", viewData.emptyMessage.get())
     }
 
     @Test
     fun testReset() {
         presenter.reset()
-        assertFalse(data.isLoading.get())
-        assertFalse(data.isErrorLoading.get())
-        assertFalse(data.isContentAvailable.get())
-        assertNull(data.results.get())
-        assertEquals("Search Venues", data.emptyMessage.get())
+        assertFalse(viewData.isLoading.get())
+        assertFalse(viewData.isErrorLoading.get())
+        assertFalse(viewData.isContentAvailable.get())
+        assertNull(viewData.results.get())
+        assertEquals("Search Venues", viewData.emptyMessage.get())
     }
 
     @Test

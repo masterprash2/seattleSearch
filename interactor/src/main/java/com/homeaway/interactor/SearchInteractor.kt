@@ -7,8 +7,9 @@ import com.homeaway.gateway.VenuesGateway
 import com.homeaway.gateway.data.Response
 import com.homeaway.interactor.search.VenueListItemModel
 import io.reactivex.Observable
+import javax.inject.Inject
 
-class SearchInteractor(
+class SearchInteractor @Inject constructor(
     private val venuesGateway: VenuesGateway,
     private val locationGateway: LocationGateway
 ) {

@@ -4,6 +4,10 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'kotlin-kapt'
+
+
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -24,6 +28,15 @@ android {
     sourceSets {
         test.resources.srcDirs += 'src/test/resources'
     }
+    dataBinding {
+        enabled = true
+    }
+
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
+
 
 }
 
@@ -43,6 +56,27 @@ dependencies {
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
     implementation 'com.squareup.okio:okio:2.2.2'
     implementation("com.squareup.moshi:moshi-kotlin:1.8.0")
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0"
+    implementation "android.arch.lifecycle:extensions:1.1.1"
+    implementation "androidx.lifecycle:lifecycle-runtime:2.0.0"
+    implementation "androidx.lifecycle:lifecycle-common-java8:2.0.0"
+
 
     implementation project(':viewmodel')
+    implementation project(':entity')
+    implementation project(':interactor')
+    implementation project(':gateway')
+
+    implementation "com.google.dagger:dagger-android:$rootProject.daggerVersion"
+    implementation "com.google.dagger:dagger-android-support:$rootProject.daggerVersion"
+    implementation "javax.inject:javax.inject:$rootProject.injectVersion"
+
+
+    testImplementation 'junit:junit:4.12'
+
+    kapt "com.google.dagger:dagger-android-processor:$rootProject.daggerVersion"
+    kapt "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
+    kaptTest "com.google.dagger:dagger-android-processor:$rootProject.daggerVersion"
+    kaptTest "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
+
 }

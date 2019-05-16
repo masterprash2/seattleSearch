@@ -1,49 +1,53 @@
 package com.homeaway.viewmodel.venue.search
 
-import com.homeaway.entity.search.Venue
 import com.homeaway.interactor.search.VenueListItemModel
+import javax.inject.Inject
 
-class VenueSearchPresenter(val venueSeachData: VenueSeachData) {
+class VenueSearchPresenter @Inject constructor(val venueSearchViewData: VenueSearchViewData) {
 
     fun showLoading() {
-        venueSeachData.isErrorLoading.set(false)
-        venueSeachData.isLoading.set(true)
+        venueSearchViewData.isErrorLoading.set(false)
+        venueSearchViewData.isLoading.set(true)
         updateEmptyResponseText()
     }
 
     fun responseFailed() {
-        venueSeachData.isErrorLoading.set(true)
-        venueSeachData.isLoading.set(false)
+        venueSearchViewData.isErrorLoading.set(true)
+        venueSearchViewData.isLoading.set(false)
         updateEmptyResponseText()
     }
 
     fun handleSuccess(resultsList: List<VenueListItemModel>) {
-        venueSeachData.isErrorLoading.set(false)
-        venueSeachData.isLoading.set(false)
-        venueSeachData.results.set(resultsList)
-        venueSeachData.isContentAvailable.set(false)
+        venueSearchViewData.isErrorLoading.set(false)
+        venueSearchViewData.isLoading.set(false)
+        venueSearchViewData.results.set(resultsList)
+        venueSearchViewData.isContentAvailable.set(false)
         updateEmptyResponseText()
     }
 
     private fun updateEmptyResponseText() {
-        if(venueSeachData.isErrorLoading.get()) {
-            venueSeachData.emptyMessage.set("Network Error")
+        if(venueSearchViewData.isErrorLoading.get()) {
+            venueSearchViewData.emptyMessage.set("Network Error")
         }
-        else if(venueSeachData.searchText.get().isNullOrBlank()) {
-            venueSeachData.emptyMessage.set("Search Venues")
+        else if(venueSearchViewData.getSearchText().isBlank()) {
+            venueSearchViewData.emptyMessage.set("Search Venues")
         }
-        else if(!venueSeachData.isContentAvailable.get()) {
-            venueSeachData.emptyMessage.set("No results found")
+        else if(!venueSearchViewData.isContentAvailable.get()) {
+            venueSearchViewData.emptyMessage.set("No results found")
         }
     }
 
     fun reset() {
-        venueSeachData.results.set(null)
-        venueSeachData.searchText.set(null)
-        venueSeachData.isLoading.set(false)
-        venueSeachData.isErrorLoading.set(false)
-        venueSeachData.isContentAvailable.set(false)
+        venueSearchViewData.results.set(null)
+        venueSearchViewData.setSearchText("")
+        venueSearchViewData.isLoading.set(false)
+        venueSearchViewData.isErrorLoading.set(false)
+        venueSearchViewData.isContentAvailable.set(false)
         updateEmptyResponseText()
+    }
+
+    fun updateSearchText(value: String) {
+        venueSearchViewData.setSearchText(value)
     }
 
 }
