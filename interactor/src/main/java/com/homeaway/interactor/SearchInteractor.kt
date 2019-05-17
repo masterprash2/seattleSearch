@@ -1,5 +1,6 @@
 package com.homeaway.interactor
 
+import com.homeaway.entity.search.Category
 import com.homeaway.entity.search.SearchResults
 import com.homeaway.entity.search.Venue
 import com.homeaway.gateway.LocationGateway
@@ -33,12 +34,12 @@ class SearchInteractor @Inject constructor(
     }
 
     private fun map(venue: Venue): VenueListItemData {
-        val category = venue.categories.first();
+        val category : Category? = venue.categories.firstOrNull();
         val distance =
             locationGateway.calculateDistance(47.6062, 122.3321, venue.location.lat, venue.location.lng)
         return VenueListItemData(
             id = venue.id,
-            category = category.name,
+            category = category?.name ?: "",
             name = venue.name,
             distance = distance.toString()
         )

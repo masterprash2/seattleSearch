@@ -1,23 +1,24 @@
-apply plugin: 'com.android.application'
-
+apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
 
-
-
 android {
     compileSdkVersion 28
+
+
     defaultConfig {
-        applicationId "com.homeaway.seattlesearch"
         minSdkVersion 22
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -25,61 +26,40 @@ android {
         }
     }
 
-    sourceSets {
-        test.resources.srcDirs += 'src/test/resources'
-    }
-    dataBinding {
-        enabled = true
-    }
-
-    compileOptions {
-        targetCompatibility 1.8
-        sourceCompatibility 1.8
-    }
-
-
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
     implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'androidx.core:core-ktx:1.0.2'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation 'com.google.android.material:material:1.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
-
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "io.reactivex.rxjava2:rxjava:$rootProject.rxJavaVersion"
     implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rxAndroidVersion"
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
     implementation 'com.squareup.okio:okio:2.2.2'
     implementation("com.squareup.moshi:moshi-kotlin:1.8.0")
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0"
-    implementation "android.arch.lifecycle:extensions:1.1.1"
-    implementation "androidx.lifecycle:lifecycle-runtime:2.0.0"
-    implementation "androidx.lifecycle:lifecycle-common-java8:2.0.0"
-
-
-    implementation project(':viewmodel')
-    implementation project(':entity')
-    implementation project(':interactor')
-    implementation project(':gateway')
-    implementation project(':gatewayimpl')
-
-    implementation "com.google.dagger:dagger-android:$rootProject.daggerVersion"
-    implementation "com.google.dagger:dagger-android-support:$rootProject.daggerVersion"
     implementation "javax.inject:javax.inject:$rootProject.injectVersion"
 
 
-    testImplementation 'junit:junit:4.12'
+    implementation 'com.squareup.retrofit2:converter-moshi:2.5.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
+    implementation "com.google.dagger:dagger-android:$rootProject.daggerVersion"
+    implementation "com.google.dagger:dagger-android-support:$rootProject.daggerVersion"
+    implementation 'com.squareup.okhttp3:okhttp:4.0.0-alpha01'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.0.0-alpha01'
 
     kapt "com.google.dagger:dagger-android-processor:$rootProject.daggerVersion"
     kapt "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
     kaptTest "com.google.dagger:dagger-android-processor:$rootProject.daggerVersion"
     kaptTest "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
 
+
+    implementation project(':gateway')
+    implementation project(':entity')
 
 
 }

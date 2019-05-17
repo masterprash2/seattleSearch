@@ -1,1 +1,1 @@
-include ':app', ':viewmodel', ':interactor', ':gateway', ':entity'
+include ':app', ':viewmodel', ':interactor', ':gateway', ':entity', ':gatewayimpl'

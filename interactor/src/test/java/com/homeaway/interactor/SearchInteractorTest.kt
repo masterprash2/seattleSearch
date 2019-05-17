@@ -72,7 +72,6 @@ class SearchInteractorTest {
         observer.assertValueCount(1)
         assertFalse(observer.values().first().success)
         assertNull(observer.values().first().response)
-
     }
 
     fun getResponse(): SearchResults {

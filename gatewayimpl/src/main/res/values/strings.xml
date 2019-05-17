@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">gatewayImpl</string>
+    <string name="foursquareApiBase">https://api.foursquare.com/v2/venues/</string>
+    <string name="foursquareApiClientId">SBS2D531K2DNPHZABBS0JSDS3JKW54U23Y0BADZPSTZKDINB</string>
+    <string name="foursquareApiClientSecret">BVB5ARH511V30TRRI0CMMWMFJFHS0434UKQQ2WD4I1S5O3CN</string>
+    <string name="foursquareApiVersion">20190517</string>
+</resources>

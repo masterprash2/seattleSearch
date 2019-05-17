@@ -1,14 +1,13 @@
 package com.homeaway.seattlesearch.app.di
 
 import android.content.Context
-import com.homeaway.entity.search.SearchResults
 import com.homeaway.gateway.LocationGateway
 import com.homeaway.gateway.VenuesGateway
-import com.homeaway.gateway.data.Response
+import com.homeaway.gatewayimpl.VenuesGatewayImpl
+import com.homeaway.gatewayimpl.retrofit.FoursquareApi
 import com.homeaway.seattlesearch.app.SeattleSearchApp
 import dagger.Module
 import dagger.Provides
-import io.reactivex.Observable
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -37,18 +36,9 @@ class SeattleSearchAppModule {
         return AndroidSchedulers.mainThread();
     }
 
-    @Provides
-    fun venuesGateway() : VenuesGateway {
-        return object : VenuesGateway {
-            override fun getSearchResults(query: String): Observable<Response<SearchResults>> {
-                return Observable.never()
-            }
-
-        }
-    }
 
     @Provides
-    fun locationGateway() : LocationGateway {
+    fun locationGateway(): LocationGateway {
         return object : LocationGateway {
             override fun calculateDistance(fromLat: Double, fromLong: Double, toLat: Double, toLong: Double): Double {
                 return 0.0
@@ -57,5 +47,16 @@ class SeattleSearchAppModule {
         }
     }
 
+    @AppScope
+    @Provides
+    fun venuesGateway(
+        context: Context,
+        foursquareApi: FoursquareApi, @BackgroundThreadScheduler scheduler: Scheduler ): VenuesGateway {
+        return VenuesGatewayImpl(
+            context = context,
+            backgroundThread = scheduler,
+            foursquareApi = foursquareApi
+        )
+    }
 
 }
