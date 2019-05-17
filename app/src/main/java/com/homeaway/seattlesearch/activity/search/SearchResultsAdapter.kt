@@ -1,9 +1,9 @@
 package com.homeaway.seattlesearch.activity.search
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.homeaway.seattlesearch.databinding.ItemVenueBinding
 import com.homeaway.viewmodel.venue.search.item.VenueListItemModel
 
 class SearchResultsAdapter(
@@ -20,7 +20,8 @@ class SearchResultsAdapter(
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VenueItemViewHolder {
-        return VenueItemViewHolder(View(parent.context))
+        val binding = ItemVenueBinding.inflate(inflater,parent,false)
+        return VenueItemViewHolder(binding)
     }
 
     override fun getItemCount(): Int {
@@ -30,5 +31,6 @@ class SearchResultsAdapter(
     override fun onBindViewHolder(holder: VenueItemViewHolder, position: Int) {
         holder.bind(resultsList.get(position))
     }
+
 
 }

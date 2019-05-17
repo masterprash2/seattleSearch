@@ -22,7 +22,7 @@ class VenueSearchPresenter @Inject constructor(private val venueSearchViewData: 
         venueSearchViewData.isErrorLoading.set(false)
         venueSearchViewData.isLoading.set(false)
         venueSearchViewData.setResults(resultsList)
-        venueSearchViewData.isContentAvailable.set(false)
+        venueSearchViewData.isContentAvailable.set(resultsList.isNotEmpty())
         updateEmptyResponseText()
     }
 

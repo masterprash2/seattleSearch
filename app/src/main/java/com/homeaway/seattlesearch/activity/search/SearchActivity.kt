@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.Menu
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.homeaway.seattlesearch.R
 import com.homeaway.seattlesearch.databinding.ActivitySearchBinding
 import com.homeaway.viewmodel.venue.search.VenueSearchViewModel
@@ -42,7 +43,7 @@ class SearchActivity : DaggerAppCompatActivity() {
         val recyclerView = viewBinding.contentMain.results
         val searchResultsAdapter = SearchResultsAdapter(layoutInflater)
         recyclerView.adapter = searchResultsAdapter
-        recyclerView.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
+        recyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         compositeDisposable.add(viewModel.getViewData().observeResults()
             .observeOn(AndroidSchedulers.mainThread()).subscribe {
                 searchResultsAdapter.updateWithNewList(it)

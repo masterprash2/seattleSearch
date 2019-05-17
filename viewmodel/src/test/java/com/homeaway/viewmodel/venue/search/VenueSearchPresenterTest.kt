@@ -53,6 +53,7 @@ class VenueSearchPresenterTest {
         presenter.handleSuccess(createVenue())
         assertFalse(viewData.isLoading.get())
         assertFalse(viewData.isErrorLoading.get())
+        assertTrue(viewData.isContentAvailable.get())
         assertEquals(1, viewData.getResults().size)
     }
 
