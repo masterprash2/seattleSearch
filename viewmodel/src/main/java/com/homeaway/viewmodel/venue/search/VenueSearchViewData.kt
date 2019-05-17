@@ -1,20 +1,20 @@
 package com.homeaway.viewmodel.venue.search
 
-import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import com.homeaway.viewmodel.venue.BaseViewData
 import com.homeaway.viewmodel.venue.search.item.VenueListItemModel
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
+import java.util.*
 import javax.inject.Inject
 
 class VenueSearchViewData @Inject constructor() : BaseViewData() {
 
     val emptyMessage = ObservableField<String>()
-    val results = ObservableField<List<VenueListItemModel>>()
+    private val results = BehaviorSubject.create<List<VenueListItemModel>>()
     private val searchText = BehaviorSubject.create<String>()
 
-    fun setSearchText(value: String) {
+    internal fun setSearchText(value: String) {
         searchText.onNext(value)
     }
 
@@ -28,6 +28,18 @@ class VenueSearchViewData @Inject constructor() : BaseViewData() {
         } else {
             return ""
         }
+    }
+
+    fun getResults(): List<VenueListItemModel> {
+        return results.value ?: Arrays.asList()
+    }
+
+    internal fun setResults(value: List<VenueListItemModel>) {
+        results.onNext(value)
+    }
+
+    fun observeResults(): Observable<List<VenueListItemModel>> {
+        return results
     }
 
 }

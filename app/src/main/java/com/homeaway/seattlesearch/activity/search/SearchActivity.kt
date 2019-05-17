@@ -3,10 +3,12 @@ package com.homeaway.seattlesearch.activity.search
 import android.os.Bundle
 import android.view.Menu
 import androidx.appcompat.widget.SearchView
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.homeaway.seattlesearch.R
 import com.homeaway.seattlesearch.databinding.ActivitySearchBinding
 import com.homeaway.viewmodel.venue.search.VenueSearchViewModel
 import dagger.android.support.DaggerAppCompatActivity
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_search.*
 import javax.inject.Inject
@@ -25,10 +27,26 @@ class SearchActivity : DaggerAppCompatActivity() {
         compositeDisposable = CompositeDisposable()
         viewBinding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
+        viewBinding.contentMain.model = viewModel
+        viewBinding.contentMain.data = viewModel.getViewData()
+        setupToolbar()
+        setupRecyclerView()
+    }
+
+    private fun setupToolbar() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
-        viewBinding.model = viewModel
-        viewBinding.data = viewModel.getViewData()
+    }
+
+    private fun setupRecyclerView() {
+        val recyclerView = viewBinding.contentMain.results
+        val searchResultsAdapter = SearchResultsAdapter(layoutInflater)
+        recyclerView.adapter = searchResultsAdapter
+        recyclerView.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
+        compositeDisposable.add(viewModel.getViewData().observeResults()
+            .observeOn(AndroidSchedulers.mainThread()).subscribe {
+                searchResultsAdapter.updateWithNewList(it)
+            })
     }
 
 

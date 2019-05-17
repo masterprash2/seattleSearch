@@ -53,7 +53,7 @@ class VenueSearchPresenterTest {
         presenter.handleSuccess(createVenue())
         assertFalse(viewData.isLoading.get())
         assertFalse(viewData.isErrorLoading.get())
-        assertEquals(1, viewData.results.get()?.size)
+        assertEquals(1, viewData.getResults().size)
     }
 
 
@@ -63,7 +63,7 @@ class VenueSearchPresenterTest {
         presenter.handleSuccess(Arrays.asList())
         assertFalse(viewData.isLoading.get())
         assertFalse(viewData.isErrorLoading.get())
-        assertEquals(0, viewData.results.get()?.size)
+        assertEquals(0, viewData.getResults().size)
         assertEquals("No results found", viewData.emptyMessage.get())
     }
 
@@ -73,7 +73,7 @@ class VenueSearchPresenterTest {
         assertFalse(viewData.isLoading.get())
         assertFalse(viewData.isErrorLoading.get())
         assertFalse(viewData.isContentAvailable.get())
-        assertNull(viewData.results.get())
+        assertEquals(0,viewData.getResults().size)
         assertEquals("Search Venues", viewData.emptyMessage.get())
     }
 

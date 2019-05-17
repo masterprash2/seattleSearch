@@ -2,6 +2,7 @@ package com.homeaway.gatewayimpl
 
 import android.content.Context
 import com.homeaway.entity.detail.VenueDetails
+import com.homeaway.entity.photo.VenuePhotos
 import com.homeaway.entity.search.SearchResults
 import com.homeaway.gateway.VenuesGateway
 import com.homeaway.gateway.data.Response
@@ -23,16 +24,16 @@ class VenuesGatewayImpl @Inject constructor(
 
     override fun getSearchResults(query: String): Observable<Response<SearchResults>> {
         val map = HashMap<String, String>()
-        map.put("near","Seattle,+WA")
-        map.put("query",query)
-        map.put("limit","20")
+        map.put("near", "Seattle,+WA")
+        map.put("query", query)
+        map.put("limit", "20")
         return foursquareApi.searchVenues(
             clientId = clientId,
             clientSecret = clientSecret, version = apiVersion,
             params = map
         ).subscribeOn(backgroundThread)
             .map { transform(it) }
-            .onErrorReturn { Response(false,null) }
+            .onErrorReturn { Response(false, null, it) }
     }
 
 
@@ -42,8 +43,18 @@ class VenuesGatewayImpl @Inject constructor(
             clientSecret = clientSecret,
             clientId = clientId,
             version = apiVersion
-        ).subscribeOn(backgroundThread).map { transform(it) }.onErrorReturn { Response(false,null) }
+        ).subscribeOn(backgroundThread)
+            .map { transform(it) }
+            .onErrorReturn { Response(false, null, it) }
     }
+
+    override fun getPhoto(venueId: String): Observable<Response<VenuePhotos>> {
+        return foursquareApi.getPhotos(venueId, clientSecret, clientId, apiVersion, "1")
+            .subscribeOn(backgroundThread)
+            .map { transform(it) }
+            .onErrorReturn { Response(false, null, it) }
+    }
+
 
     private fun <T> transform(it: retrofit2.Response<T>): Response<T> {
         return Response(it.isSuccessful, it.body())

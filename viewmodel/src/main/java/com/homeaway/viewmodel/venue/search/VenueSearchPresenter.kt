@@ -1,12 +1,12 @@
 package com.homeaway.viewmodel.venue.search
 
-import com.homeaway.interactor.search.VenueListItemData
 import com.homeaway.viewmodel.venue.BasePresenter
 import com.homeaway.viewmodel.venue.search.item.VenueListItemModel
+import java.util.*
 import javax.inject.Inject
 
-class VenueSearchPresenter @Inject constructor(private val venueSearchViewData: VenueSearchViewData)
-    : BasePresenter<VenueSearchViewData>(venueSearchViewData) {
+class VenueSearchPresenter @Inject constructor(private val venueSearchViewData: VenueSearchViewData) :
+    BasePresenter<VenueSearchViewData>(venueSearchViewData) {
 
     override fun showLoading() {
         super.showLoading()
@@ -21,26 +21,24 @@ class VenueSearchPresenter @Inject constructor(private val venueSearchViewData: 
     fun handleSuccess(resultsList: List<VenueListItemModel>) {
         venueSearchViewData.isErrorLoading.set(false)
         venueSearchViewData.isLoading.set(false)
-        venueSearchViewData.results.set(resultsList)
+        venueSearchViewData.setResults(resultsList)
         venueSearchViewData.isContentAvailable.set(false)
         updateEmptyResponseText()
     }
 
 
     private fun updateEmptyResponseText() {
-        if(venueSearchViewData.isErrorLoading.get()) {
+        if (venueSearchViewData.isErrorLoading.get()) {
             venueSearchViewData.emptyMessage.set("Network Error")
-        }
-        else if(venueSearchViewData.getSearchText().isBlank()) {
+        } else if (venueSearchViewData.getSearchText().isBlank()) {
             venueSearchViewData.emptyMessage.set("Search Venues")
-        }
-        else if(!venueSearchViewData.isContentAvailable.get()) {
+        } else if (!venueSearchViewData.isContentAvailable.get()) {
             venueSearchViewData.emptyMessage.set("No results found")
         }
     }
 
     fun reset() {
-        venueSearchViewData.results.set(null)
+        venueSearchViewData.setResults(Arrays.asList())
         venueSearchViewData.setSearchText("")
         venueSearchViewData.isLoading.set(false)
         venueSearchViewData.isErrorLoading.set(false)

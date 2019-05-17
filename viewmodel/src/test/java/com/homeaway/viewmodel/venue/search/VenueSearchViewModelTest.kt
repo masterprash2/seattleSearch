@@ -59,7 +59,7 @@ class VenueSearchViewModelTest {
         viewData.setSearchText("coffee")
         assertFalse(viewData.isLoading.get())
         assertTrue(viewData.isErrorLoading.get())
-        assertNull(viewData.results.get())
+        assertEquals(0,viewData.getResults().size)
         whenever(gateway.getSearchResults("coffee")).thenReturn(Observable.never())
         viewModel.retry()
         assertTrue(viewData.isLoading.get())
