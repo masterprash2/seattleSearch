@@ -5,7 +5,9 @@ import androidx.lifecycle.ViewModelProviders
 import com.homeaway.seattlesearch.activity.di.ActivityScope
 import com.homeaway.seattlesearch.activity.di.ViewModelProviderFactory
 import com.homeaway.seattlesearch.activity.search.SearchActivity
+import com.homeaway.seattlesearch.activity.search.SearchNavigationImpl
 import com.homeaway.seattlesearch.databinding.ActivitySearchBinding
+import com.homeaway.viewmodel.venue.search.VenueSearchNavigation
 import dagger.Module
 import dagger.Provides
 
@@ -21,6 +23,12 @@ class SearchActivityModule {
     @Provides
     fun viewModelProvider(activity: SearchActivity, providerFactory: ViewModelProviderFactory): ViewModelProvider {
         return ViewModelProviders.of(activity, providerFactory)
+    }
+
+    @ActivityScope
+    @Provides
+    fun venueSearchNavigation(searchNavigationImpl: SearchNavigationImpl): VenueSearchNavigation {
+        return searchNavigationImpl
     }
 
 }

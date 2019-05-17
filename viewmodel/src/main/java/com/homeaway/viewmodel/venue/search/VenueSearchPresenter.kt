@@ -5,7 +5,10 @@ import com.homeaway.viewmodel.venue.search.item.VenueListItemModel
 import java.util.*
 import javax.inject.Inject
 
-class VenueSearchPresenter @Inject constructor(private val venueSearchViewData: VenueSearchViewData) :
+class VenueSearchPresenter @Inject constructor(
+    private val venueSearchViewData: VenueSearchViewData,
+    private val venueSearchNavigation: VenueSearchNavigation
+) :
     BasePresenter<VenueSearchViewData>(venueSearchViewData) {
 
     override fun showLoading() {
@@ -48,6 +51,14 @@ class VenueSearchPresenter @Inject constructor(private val venueSearchViewData: 
 
     fun updateSearchText(value: String) {
         venueSearchViewData.setSearchText(value)
+    }
+
+    fun navigateToDetail(venueId: String) {
+        venueSearchNavigation.openDetail(venueId)
+    }
+
+    fun navigateToMaps() {
+        venueSearchNavigation.showInMaps(viewData.getSearchText())
     }
 
 }

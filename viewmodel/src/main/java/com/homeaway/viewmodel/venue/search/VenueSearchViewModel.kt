@@ -7,6 +7,7 @@ import com.homeaway.interactor.SearchInteractor
 import com.homeaway.interactor.search.VenueListItemData
 import com.homeaway.viewmodel.venue.BaseViewModel
 import com.homeaway.viewmodel.venue.ViewModelFactory
+import com.homeaway.viewmodel.venue.search.item.ItemNavigation
 import com.homeaway.viewmodel.venue.search.item.VenueListItemModel
 import io.reactivex.disposables.Disposable
 
@@ -17,6 +18,12 @@ class VenueSearchViewModel(
 ) : BaseViewModel() {
 
     private var searchDisposable: Disposable? = null
+
+    private val itemNavigation = object : ItemNavigation {
+        override fun openDetail(venueId: String) {
+            presenter.navigateToDetail(venueId)
+        }
+    }
 
     init {
         add(getViewData().observeSearchText().subscribe {
@@ -57,7 +64,7 @@ class VenueSearchViewModel(
     private fun transform(data: List<VenueListItemData>): List<VenueListItemModel> {
         val list = ArrayList<VenueListItemModel>()
         for (venue in data) {
-            list.add(VenueListItemModel(venue))
+            list.add(VenueListItemModel(venue, itemNavigation))
         }
         return list
     }
@@ -79,4 +86,5 @@ class VenueSearchViewModel(
     fun getViewData(): VenueSearchViewData {
         return presenter.viewData
     }
+
 }
