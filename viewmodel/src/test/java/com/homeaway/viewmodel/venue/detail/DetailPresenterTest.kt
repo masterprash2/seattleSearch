@@ -1,10 +1,12 @@
 package com.homeaway.viewmodel.venue.detail
 
+import com.homeaway.viewmodel.venue.detail.item.DetailItemModel
 import org.junit.After
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
+import java.util.*
 
 class DetailPresenterTest {
 
@@ -33,10 +35,18 @@ class DetailPresenterTest {
 
     @Test
     fun handleSuccess() {
-        presenter.handleSuccess()
+        val createDummyResponse = createDummyResponse()
+        presenter.handleSuccess(createDummyResponse)
         assertFalse(data.isLoading.get())
         assertFalse(data.isErrorLoading.get())
+        assertTrue(data.getVenueDetails() == createDummyResponse)
     }
+
+
+    private fun createDummyResponse(): List<DetailItemModel> {
+        return Arrays.asList()
+    }
+
 
     @After
     fun tearDown() {
