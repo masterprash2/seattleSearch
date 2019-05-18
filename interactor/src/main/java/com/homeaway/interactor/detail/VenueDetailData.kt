@@ -15,11 +15,11 @@ data class VenueDetailData(
 
     fun toDisplayAddress(): String {
         val address = StringBuilder()
-        for (addr in location.address) {
+        for (addr in location.formattedAddress) {
             address.append(addr).append(", ")
         }
         if (address.isNotEmpty()) {
-            address.trimToSize()
+            address.deleteCharAt(address.length - 1)
             address.deleteCharAt(address.length - 1)
         }
         return address.toString()

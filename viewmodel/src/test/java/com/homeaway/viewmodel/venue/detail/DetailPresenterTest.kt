@@ -2,8 +2,7 @@ package com.homeaway.viewmodel.venue.detail
 
 import com.homeaway.viewmodel.venue.detail.item.DetailItemModel
 import org.junit.After
-import org.junit.Assert.assertFalse
-import org.junit.Assert.assertTrue
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import java.util.*
@@ -36,10 +35,11 @@ class DetailPresenterTest {
     @Test
     fun handleSuccess() {
         val createDummyResponse = createDummyResponse()
-        presenter.handleSuccess(createDummyResponse)
+        presenter.handleSuccess(createDummyResponse, "mapImageUrl")
         assertFalse(data.isLoading.get())
         assertFalse(data.isErrorLoading.get())
         assertTrue(data.getVenueDetails() == createDummyResponse)
+        assertEquals("mapImageUrl",data.venueMapImage.get())
     }
 
 

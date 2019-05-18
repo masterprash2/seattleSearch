@@ -6,11 +6,12 @@ import com.homeaway.gateway.VenuesGateway
 import com.homeaway.gateway.data.Response
 import com.homeaway.interactor.SearchInteractor
 import com.nhaarman.mockitokotlin2.any
-import com.nhaarman.mockitokotlin2.times
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
+import com.squareup.moshi.Moshi
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
+import okio.Buffer
 import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
@@ -25,6 +26,7 @@ class VenueSearchViewModelTest {
     lateinit var searchInteractor: SearchInteractor
     lateinit var gateway: VenuesGateway
     lateinit var locationGateway: LocationGateway
+    lateinit var navigation: VenueSearchNavigation
 
     @Before
     fun setUp() {
@@ -33,7 +35,8 @@ class VenueSearchViewModelTest {
         whenever(locationGateway.calculateDistance(any(), any(), any(), any())).thenReturn(123.0)
         gateway = Mockito.mock(VenuesGateway::class.java)
         searchInteractor = SearchInteractor(gateway, locationGateway)
-        presenter = VenueSearchPresenter(viewData)
+        navigation = Mockito.mock(VenueSearchNavigation::class.java)
+        presenter = VenueSearchPresenter(viewData, navigation)
         viewModel = VenueSearchViewModel(presenter, searchInteractor)
 
     }
@@ -59,7 +62,7 @@ class VenueSearchViewModelTest {
         viewData.setSearchText("coffee")
         assertFalse(viewData.isLoading.get())
         assertTrue(viewData.isErrorLoading.get())
-        assertEquals(0,viewData.getResults().size)
+        assertEquals(0, viewData.getResults().size)
         whenever(gateway.getSearchResults("coffee")).thenReturn(Observable.never())
         viewModel.retry()
         assertTrue(viewData.isLoading.get())
@@ -81,15 +84,47 @@ class VenueSearchViewModelTest {
         assertTrue(viewData.isLoading.get())
 
         // First published response should not affect the viewdata state
-        firstPublisher.onNext(Response(false,null))
+        firstPublisher.onNext(Response(false, null))
         assertFalse(viewData.isErrorLoading.get())
         assertTrue(viewData.isLoading.get())
 
         //Second publisher's response should update the UI
-        firstPublisher.onNext(Response(false,null))
+        firstPublisher.onNext(Response(false, null))
         assertFalse(viewData.isErrorLoading.get())
         assertTrue(viewData.isLoading.get())
     }
+
+    @Test
+    fun successResponse() {
+        whenever(gateway.getSearchResults("coffee")).thenReturn(Observable.just(createResponse()))
+        assertFalse(viewData.isContentAvailable.get())
+        viewModel.setSearchText("coffee")
+        assertTrue(viewData.isContentAvailable.get())
+        assertFalse(viewData.isErrorLoading.get())
+        assertFalse(viewData.isLoading.get())
+        assertEquals(1, viewData.getResults().size)
+    }
+
+    @Test
+    fun itemClickNavigation() {
+        val response = getResponse();
+        successResponse()
+        val itemModel = viewData.getResults().first();
+        itemModel.handleOnClick()
+        verify(navigation).openDetail(response.response.venues.first().id)
+    }
+
+    private fun createResponse(): Response<SearchResults> {
+        return Response(true, getResponse())
+    }
+
+
+    fun getResponse(): SearchResults {
+        val readFrom = Buffer().readFrom(javaClass.classLoader.getResourceAsStream("validsearch.json"))
+        val build = Moshi.Builder().build()
+        return build.adapter(SearchResults::class.java).fromJson(readFrom)!!
+    }
+
 
     @After
     fun tearDown() {

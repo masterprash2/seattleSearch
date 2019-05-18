@@ -1,22 +1,29 @@
 package com.homeaway.viewmodel.venue.search
 
 import com.homeaway.interactor.search.VenueListItemData
+import com.homeaway.viewmodel.venue.search.item.ItemNavigation
 import com.homeaway.viewmodel.venue.search.item.VenueListItemModel
+import com.nhaarman.mockitokotlin2.verify
 import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
+import org.mockito.Mockito
 import java.util.*
 
 class VenueSearchPresenterTest {
 
     lateinit var presenter: VenueSearchPresenter
     lateinit var viewData: VenueSearchViewData
+    lateinit var navigation: VenueSearchNavigation
+    lateinit var itemNavigation: ItemNavigation
 
     @Before
     fun setUp() {
+        itemNavigation = Mockito.mock(ItemNavigation::class.java)
         viewData = VenueSearchViewData()
-        presenter = VenueSearchPresenter(viewData)
+        navigation = Mockito.mock(VenueSearchNavigation::class.java)
+        presenter = VenueSearchPresenter(viewData, navigation)
     }
 
     @Test
@@ -74,7 +81,7 @@ class VenueSearchPresenterTest {
         assertFalse(viewData.isLoading.get())
         assertFalse(viewData.isErrorLoading.get())
         assertFalse(viewData.isContentAvailable.get())
-        assertEquals(0,viewData.getResults().size)
+        assertEquals(0, viewData.getResults().size)
         assertEquals("Search Venues", viewData.emptyMessage.get())
     }
 
@@ -90,9 +97,16 @@ class VenueSearchPresenterTest {
         testReset()
     }
 
+    @Test
+    fun navigateToMaps() {
+        viewData.setSearchText("query")
+        presenter.navigateToMaps()
+        verify(navigation).showInMaps("query")
+    }
+
 
     private fun createVenue(): List<VenueListItemModel> {
-        return Arrays.asList(VenueListItemModel(createVenueModel()))
+        return Arrays.asList(VenueListItemModel(createVenueModel(), itemNavigation))
 //
 //        val readFrom = Buffer().readFrom(javaClass.classLoader.getResourceAsStream("valid.json"))
 //        val build = Moshi.Builder().build()
