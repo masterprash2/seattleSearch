@@ -17,7 +17,6 @@ class DetailsAdapter(inflater: LayoutInflater) : ArrayAdapter<DetailItemModel>(i
         return when (Type.from(viewType)) {
             Type.KEY_VALUE -> DetailItemKeyValue(View(parent.context))
             Type.WEB_LINK -> DetailItemWeblink(View(parent.context))
-            Type.DESCRIPTION -> DetailItemDescription(View(parent.context))
         }
     }
 
@@ -26,7 +25,6 @@ class DetailsAdapter(inflater: LayoutInflater) : ArrayAdapter<DetailItemModel>(i
         when (item.type) {
             Type.KEY_VALUE -> (holder as DetailItemKeyValue).onBind(item)
             Type.WEB_LINK -> (holder as DetailItemWeblink).onBind(item)
-            Type.DESCRIPTION -> (holder as DetailItemDescription).onBind(item)
         }
     }
 
