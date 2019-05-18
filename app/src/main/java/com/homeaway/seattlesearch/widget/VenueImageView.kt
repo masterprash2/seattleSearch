@@ -13,5 +13,8 @@ class VenueImageView @JvmOverloads constructor(
         Picasso.get().load(imageUrl).into(this)
     }
 
+    fun setVenueId(venueId : String) {
+
+    }
 
 }
