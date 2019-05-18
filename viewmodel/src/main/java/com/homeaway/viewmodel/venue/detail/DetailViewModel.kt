@@ -15,7 +15,8 @@ import java.util.*
 @AutoFactory(implementing = [ViewModelFactory::class])
 class DetailViewModel(
     @Provided private val presenter: DetailPresenter,
-    @Provided private val detailInteractor: VenueDetailsInteractor
+    @Provided private val detailInteractor: VenueDetailsInteractor,
+    @Provided private val navigation: DetailViewNavigation
 ) : BaseViewModel() {
 
     private var detailRequest: Disposable? = null
@@ -23,6 +24,7 @@ class DetailViewModel(
     private val itemNavigation = object : DetailItemNavigation {
 
         override fun openWebLink(url: String) {
+            navigation.openWebLink(url)
         }
     }
 
@@ -47,6 +49,10 @@ class DetailViewModel(
             list.add(DetailItemModel("Web Link:", venueDetailData.webLink!!, Type.WEB_LINK, itemNavigation))
         list.add(DetailItemModel("Description:", venueDetailData.description, Type.DESCRIPTION, itemNavigation))
         presenter.handleSuccess(list,venueDetailData.mapImageUrl)
+    }
+
+    fun viewData() : DetailViewData {
+        return presenter.viewData
     }
 
 

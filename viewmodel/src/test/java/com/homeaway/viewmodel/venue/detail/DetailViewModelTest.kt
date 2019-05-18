@@ -5,6 +5,7 @@ import com.homeaway.gateway.VenuesGateway
 import com.homeaway.gateway.data.Response
 import com.homeaway.interactor.VenueDetailsInteractor
 import com.homeaway.viewmodel.venue.detail.item.Type
+import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import com.squareup.moshi.Moshi
 import io.reactivex.Observable
@@ -22,6 +23,7 @@ class DetailViewModelTest {
     lateinit var data: DetailViewData
     lateinit var interactor: VenueDetailsInteractor
     lateinit var venuesGateway: VenuesGateway
+    lateinit var navigation: DetailViewNavigation
 
     @Before
     fun setUp() {
@@ -29,7 +31,8 @@ class DetailViewModelTest {
         interactor = VenueDetailsInteractor(venuesGateway)
         data = DetailViewData()
         presenter = DetailPresenter(data)
-        viewModel = DetailViewModel(presenter, interactor)
+        navigation = Mockito.mock(DetailViewNavigation::class.java)
+        viewModel = DetailViewModel(presenter, interactor,navigation)
     }
 
 
@@ -79,11 +82,18 @@ class DetailViewModelTest {
         assertEquals(Type.WEB_LINK, venueDetails[2].type)
 
         assertEquals("Description", venueDetails[3].value)
-        assertEquals(Type.KEY_VALUE, venueDetails[3].type)
+        assertEquals(Type.DESCRIPTION, venueDetails[3].type)
 
-        assertEquals("venueMapImageUrl", data.venueMapImage.get())
+//        assertEquals("venueMapImageUrl", data.venueMapImage.get())
     }
 
+    @Test
+    fun webLinkNavigation() {
+        success()
+        val weblinkItem = data.getVenueDetails()[2]
+        weblinkItem.performClick()
+        verify(navigation).openWebLink(weblinkItem.value)
+    }
 
     fun getResponse(): VenueDetails {
         val readFrom = Buffer().readFrom(javaClass.classLoader.getResourceAsStream("validdetails.json"))
