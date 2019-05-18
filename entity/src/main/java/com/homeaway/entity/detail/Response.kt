@@ -7,5 +7,5 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class Response(
     @Json(name = "venue")
-    val venue: Venue
+    val venue: Venue = Venue()
 )

@@ -26,11 +26,9 @@ class VenueDetailsInteractor @Inject constructor(private val venuesGateway: Venu
         return VenueDetailData(
             id = venue.id,
             name = venue.name,
-            contact = venue.contact,
-            description = venue.description,
             location = venue.location,
             mapImageUrl = "",
-            webLink = venue.url
+            webLink = venue.shortUrl
         )
     }
 

@@ -1,5 +1,7 @@
 package com.homeaway.seattlesearch.activity.detail
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -10,6 +12,7 @@ import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 class DetailActivity : DaggerAppCompatActivity() {
+
 
     @Inject
     lateinit var viewModel: DetailViewModel
@@ -24,6 +27,11 @@ class DetailActivity : DaggerAppCompatActivity() {
         setContentView(viewBinding.root)
         setupRecyclerView()
         viewBinding.contentDetail.data = viewModel.viewData()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.loadDetails(intent.getStringExtra(BUNDLE_KEY_VENUE_ID))
     }
 
     private fun setupRecyclerView() {
@@ -42,5 +50,16 @@ class DetailActivity : DaggerAppCompatActivity() {
     override fun onDestroy() {
         compositeDisposable.dispose()
         super.onDestroy()
+    }
+
+    companion object {
+
+        val BUNDLE_KEY_VENUE_ID = "venueId"
+
+        fun launch(activity: Activity, venueId: String) {
+            val intent = Intent(activity, DetailActivity::class.java)
+            intent.putExtra(BUNDLE_KEY_VENUE_ID, venueId)
+            activity.startActivity(intent)
+        }
     }
 }

@@ -70,9 +70,9 @@ class DetailViewModelTest {
         assertFalse(data.isLoading.get())
         assertTrue(data.isContentAvailable.get())
         val venueDetails = data.getVenueDetails()
-        assertEquals(4, venueDetails.size)
+        assertEquals(3, venueDetails.size)
 
-        assertEquals("Central Park", venueDetails[0].value)
+        assertEquals("Leschi House Concerts", venueDetails[0].value)
         assertEquals(Type.KEY_VALUE, venueDetails[0].type)
 
         assertEquals("Addr1, Addr2, Addr3", venueDetails[1].value)
@@ -80,9 +80,6 @@ class DetailViewModelTest {
 
         assertEquals("http://weblink", venueDetails[2].value)
         assertEquals(Type.WEB_LINK, venueDetails[2].type)
-
-        assertEquals("Description", venueDetails[3].value)
-        assertEquals(Type.DESCRIPTION, venueDetails[3].type)
 
 //        assertEquals("venueMapImageUrl", data.venueMapImage.get())
     }
