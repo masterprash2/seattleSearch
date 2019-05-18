@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.homeaway.seattlesearch.databinding.ActivityDetailBinding
 import com.homeaway.viewmodel.venue.detail.DetailViewModel
 import dagger.android.support.DaggerAppCompatActivity
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
@@ -41,9 +42,10 @@ class DetailActivity : DaggerAppCompatActivity() {
             adapter = detailsAdapter
             layoutManager = LinearLayoutManager(this@DetailActivity, RecyclerView.VERTICAL, false)
         }
-        compositeDisposable.add(viewModel.viewData().observeVenueDetails().subscribe {
-            detailsAdapter.updateWithNewList(it)
-        })
+        compositeDisposable.add(viewModel.viewData().observeVenueDetails()
+            .observeOn(AndroidSchedulers.mainThread()).subscribe {
+                detailsAdapter.updateWithNewList(it)
+            })
     }
 
 
