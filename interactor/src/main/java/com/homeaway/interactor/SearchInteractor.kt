@@ -34,14 +34,19 @@ class SearchInteractor @Inject constructor(
     }
 
     private fun map(venue: Venue): VenueListItemData {
-        val category : Category? = venue.categories.firstOrNull();
+        val category: Category? = venue.categories.firstOrNull();
         val distance =
             locationGateway.calculateDistance(47.6062, 122.3321, venue.location.lat, venue.location.lng)
+        val photoUrl =
+            if (category != null) category.icon.prefix + "100" + category.icon.suffix
+            else ""
+
         return VenueListItemData(
             id = venue.id,
             category = category?.name ?: "",
             name = venue.name,
-            distance = distance.toString()
+            distance = distance.toString(),
+            photoUrl = venuesGateway.appendAuthQuery(photoUrl)
         )
     }
 

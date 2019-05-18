@@ -2,10 +2,12 @@ package com.homeaway.seattlesearch.app.di
 
 import android.content.Context
 import com.homeaway.gateway.LocationGateway
+import com.homeaway.gateway.MapsGateway
 import com.homeaway.gateway.VenuesGateway
-import com.homeaway.gatewayimpl.VenuesGatewayImpl
+import com.homeaway.gatewayimpl.GoogleMapsGateway
 import com.homeaway.gatewayimpl.retrofit.FoursquareApi
 import com.homeaway.seattlesearch.app.SeattleSearchApp
+import com.homeaway.seattlesearch.dev.DevVenuesGateway
 import dagger.Module
 import dagger.Provides
 import io.reactivex.Scheduler
@@ -40,6 +42,14 @@ class SeattleSearchAppModule {
     @Provides
     fun locationGateway(): LocationGateway {
         return object : LocationGateway {
+            override fun getCityCenterLat(): Double {
+                return 47.6062
+            }
+
+            override fun getCityCenterLng(): Double {
+                return -122.3321
+            }
+
             override fun calculateDistance(fromLat: Double, fromLong: Double, toLat: Double, toLong: Double): Double {
                 return 0.0
             }
@@ -49,14 +59,22 @@ class SeattleSearchAppModule {
 
     @AppScope
     @Provides
+    fun mapsGateway(googleMapsGateway: GoogleMapsGateway): MapsGateway {
+        return googleMapsGateway
+    }
+
+    @AppScope
+    @Provides
     fun venuesGateway(
         context: Context,
-        foursquareApi: FoursquareApi, @BackgroundThreadScheduler scheduler: Scheduler ): VenuesGateway {
-        return VenuesGatewayImpl(
-            context = context,
-            backgroundThread = scheduler,
-            foursquareApi = foursquareApi
-        )
+        foursquareApi: FoursquareApi, @BackgroundThreadScheduler scheduler: Scheduler
+    ): VenuesGateway {
+        return DevVenuesGateway(context)
+//        return VenuesGatewayImpl(
+//            context = context,
+//            backgroundThread = scheduler,
+//            foursquareApi = foursquareApi
+//        )
     }
 
 }

@@ -1,6 +1,7 @@
 package com.homeaway.gatewayimpl
 
 import android.content.Context
+import android.net.Uri
 import com.homeaway.entity.detail.VenueDetails
 import com.homeaway.entity.photo.VenuePhotos
 import com.homeaway.entity.search.SearchResults
@@ -58,6 +59,16 @@ class VenuesGatewayImpl @Inject constructor(
 
     private fun <T> transform(it: retrofit2.Response<T>): Response<T> {
         return Response(it.isSuccessful, it.body())
+    }
+
+    override fun appendAuthQuery(url: String): String {
+        if (url.isBlank()) {
+            return url
+        }
+        return Uri.parse(url).buildUpon()
+            .appendQueryParameter("clientId", clientId)
+            .appendQueryParameter("clientSecret", clientSecret).build().toString()
+
     }
 
 

@@ -1,0 +1,125 @@
+{
+  "meta": {
+    "code": 200,
+    "requestId": "5cdfd8aa4c1f6753b3b6d1b8"
+  },
+  "response": {
+    "venue": {
+      "id": "5b5194623c858d003946b2ef",
+      "name": "Leschi House Concerts",
+      "contact": {},
+      "location": {
+        "lat": 47.60621,
+        "lng": -122.33207,
+        "labeledLatLngs": [
+          {
+            "label": "display",
+            "lat": 47.60621,
+            "lng": -122.33207
+          }
+        ],
+        "cc": "US",
+        "city": "Seattle",
+        "state": "WA",
+        "country": "United States",
+        "formattedAddress": [
+          "Addr1",
+          "Addr2",
+          "Addr3"
+        ]
+      },
+      "canonicalUrl": "https://foursquare.com/v/leschi-house-concerts/5b5194623c858d003946b2ef",
+      "categories": [
+        {
+          "id": "4bf58dd8d48988d1e5931735",
+          "name": "Music Venue",
+          "pluralName": "Music Venues",
+          "shortName": "Music Venue",
+          "icon": {
+            "prefix": "https://ss3.4sqi.net/img/categories_v2/arts_entertainment/musicvenue_",
+            "suffix": ".png"
+          },
+          "primary": true
+        }
+      ],
+      "verified": false,
+      "stats": {
+        "tipCount": 0
+      },
+      "likes": {
+        "count": 0,
+        "groups": []
+      },
+      "dislike": false,
+      "ok": false,
+      "allowMenuUrlEdit": true,
+      "beenHere": {
+        "count": 0,
+        "unconfirmedCount": 0,
+        "marked": false,
+        "lastCheckinExpiredAt": 0
+      },
+      "specials": {
+        "count": 0,
+        "items": []
+      },
+      "photos": {
+        "count": 0,
+        "groups": [
+          {
+            "type": "checkin",
+            "name": "Friends' check-in photos",
+            "count": 0,
+            "items": []
+          }
+        ],
+        "summary": "No photos"
+      },
+      "reasons": {
+        "count": 0,
+        "items": []
+      },
+      "hereNow": {
+        "count": 0,
+        "summary": "Nobody here",
+        "groups": []
+      },
+      "createdAt": 1532073058,
+      "tips": {
+        "count": 0,
+        "groups": [
+          {
+            "type": "others",
+            "name": "All tips",
+            "count": 0,
+            "items": []
+          }
+        ]
+      },
+      "shortUrl": "http://weblink",
+      "timeZone": "America/Los_Angeles",
+      "listed": {
+        "count": 0,
+        "groups": [
+          {
+            "type": "others",
+            "name": "Lists from other people",
+            "count": 0,
+            "items": []
+          }
+        ]
+      },
+      "pageUpdates": {
+        "count": 0,
+        "items": []
+      },
+      "inbox": {
+        "count": 0,
+        "items": []
+      },
+      "attributes": {
+        "groups": []
+      }
+    }
+  }
+}

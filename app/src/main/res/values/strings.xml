@@ -2,4 +2,5 @@
     <string name="app_name">SeattleSearch</string>
     <string name="action_settings">Settings</string>
     <string name="retry">Retry</string>
+    <string name="google_maps_key">AIzaSyAMGusKo6juznSNTt1FZcAWIgKXSddIfz4</string>
 </resources>

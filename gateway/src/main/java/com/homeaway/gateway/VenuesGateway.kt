@@ -11,5 +11,6 @@ interface VenuesGateway {
     fun getSearchResults(query: String): Observable<Response<SearchResults>>
     fun getVenueDetail(venueId: String): Observable<Response<VenueDetails>>
     fun getPhoto(venueId: String): Observable<Response<VenuePhotos>>
+    fun appendAuthQuery(url:String) : String
 
 }

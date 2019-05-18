@@ -9,11 +9,11 @@ class VenueListItemModel(
     private val itemNavigation: ItemNavigation
 ) {
 
-    val venueId = ObservableField<String>(data.id)
     val name = ObservableField<String>(data.name)
     val category = ObservableField<String>(data.category)
     val distance = ObservableField<String>(data.distance)
     val isFavorite = ObservableBoolean()
+    val photoUrl = ObservableField<String>(data.photoUrl)
 
     fun handleOnClick() {
         itemNavigation.openDetail(data.id)

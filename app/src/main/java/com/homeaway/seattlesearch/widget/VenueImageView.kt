@@ -9,12 +9,12 @@ class VenueImageView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : ImageView(context, attrs, defStyleAttr) {
 
-    fun setImageUrl(imageUrl: String?) {
-        Picasso.get().load(imageUrl).into(this)
+    init {
+        setColorFilter(0x3B3B37);
     }
 
-    fun setVenueId(venueId : String) {
-
+    fun setImageUrl(imageUrl: String?) {
+        Picasso.get().load(imageUrl).into(this)
     }
 
 }

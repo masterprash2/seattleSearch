@@ -1,13 +1,17 @@
 package com.homeaway.interactor
 
 import com.homeaway.entity.detail.VenueDetails
+import com.homeaway.gateway.MapsGateway
 import com.homeaway.gateway.VenuesGateway
 import com.homeaway.gateway.data.Response
 import com.homeaway.interactor.detail.VenueDetailData
 import io.reactivex.Observable
 import javax.inject.Inject
 
-class VenueDetailsInteractor @Inject constructor(private val venuesGateway: VenuesGateway) {
+class VenueDetailsInteractor @Inject constructor(
+    private val venuesGateway: VenuesGateway,
+    private val mapsGateway: MapsGateway
+) {
 
     fun getVenueDeatils(venueId: String): Observable<Response<VenueDetailData>> {
         return venuesGateway.getVenueDetail(venueId).map { transform(it) }
@@ -27,7 +31,7 @@ class VenueDetailsInteractor @Inject constructor(private val venuesGateway: Venu
             id = venue.id,
             name = venue.name,
             location = venue.location,
-            mapImageUrl = "",
+            mapImageUrl = mapsGateway.getMapsImageFromCenter(venue.location.lat, venue.location.lng),
             webLink = venue.shortUrl
         )
     }
