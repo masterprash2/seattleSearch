@@ -7,6 +7,7 @@ import com.homeaway.seattlesearch.activity.detail.DetailViewNavigationImpl
 import com.homeaway.seattlesearch.activity.di.ActivityScope
 import com.homeaway.seattlesearch.activity.di.ViewModelKey
 import com.homeaway.seattlesearch.activity.di.ViewModelProviderFactory
+import com.homeaway.seattlesearch.databinding.ActivityDetailBinding
 import com.homeaway.seattlesearch.databinding.ActivitySearchBinding
 import com.homeaway.viewmodel.venue.ViewModelFactory
 import com.homeaway.viewmodel.venue.detail.DetailViewModel
@@ -18,11 +19,11 @@ import dagger.multibindings.IntoMap
 
 @Module
 class DetailActivityModule {
-//
-//    @Provides
-//    fun activityBidning(activity: DetailActivity): ActivitySearchBinding {
-//        return ActivitySearchBinding.inflate(activity.layoutInflater)
-//    }
+
+    @Provides
+    fun activityBinding(activity: DetailActivity): ActivityDetailBinding {
+        return ActivityDetailBinding.inflate(activity.layoutInflater)
+    }
 
     @ActivityScope
     @Provides

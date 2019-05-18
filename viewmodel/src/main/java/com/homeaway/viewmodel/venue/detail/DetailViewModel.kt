@@ -45,7 +45,7 @@ class DetailViewModel(
         list.add(DetailItemModel("Address:", venueDetailData.toDisplayAddress(), Type.KEY_VALUE, itemNavigation))
         if (!venueDetailData.webLink.isNullOrEmpty())
             list.add(DetailItemModel("Web Link:", venueDetailData.webLink!!, Type.WEB_LINK, itemNavigation))
-        list.add(DetailItemModel("Description:", venueDetailData.description, Type.KEY_VALUE, itemNavigation))
+        list.add(DetailItemModel("Description:", venueDetailData.description, Type.DESCRIPTION, itemNavigation))
         presenter.handleSuccess(list,venueDetailData.mapImageUrl)
     }
 

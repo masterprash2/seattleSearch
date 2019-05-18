@@ -3,7 +3,17 @@ package com.homeaway.viewmodel.venue.detail.item
 
 enum class Type {
     KEY_VALUE,
-    WEB_LINK
+    WEB_LINK,
+    DESCRIPTION;
+
+    companion object {
+        private val values = Type.values()
+        fun from(ordinal : Int): Type {
+            return values[ordinal]
+        }
+    }
+
+
 }
 
 class DetailItemModel(
