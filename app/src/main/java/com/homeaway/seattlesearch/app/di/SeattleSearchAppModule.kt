@@ -2,10 +2,7 @@ package com.homeaway.seattlesearch.app.di
 
 import android.content.Context
 import com.homeaway.gateway.LocationGateway
-import com.homeaway.gateway.MapsGateway
 import com.homeaway.gateway.VenuesGateway
-import com.homeaway.gatewayimpl.GoogleMapsGateway
-import com.homeaway.gatewayimpl.VenuesGatewayImpl
 import com.homeaway.gatewayimpl.retrofit.FoursquareApi
 import com.homeaway.seattlesearch.app.SeattleSearchApp
 import com.homeaway.seattlesearch.dev.DevVenuesGateway
@@ -56,12 +53,6 @@ class SeattleSearchAppModule {
             }
 
         }
-    }
-
-    @AppScope
-    @Provides
-    fun mapsGateway(googleMapsGateway: GoogleMapsGateway): MapsGateway {
-        return googleMapsGateway
     }
 
     @AppScope
