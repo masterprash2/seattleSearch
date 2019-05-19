@@ -20,15 +20,15 @@ class RetrofitModule {
     @Provides
     @RetrofitScope
     fun okhttp(): OkHttpClient {
-        val conntectionTimeoutInterceptor = ConntectionTimeoutInterceptor()
+        val connectionTimeoutInterceptor = ConnectionTimeoutInterceptor()
 
         val client = OkHttpClient.Builder()
-            .addInterceptor(conntectionTimeoutInterceptor)
+            .addInterceptor(connectionTimeoutInterceptor)
             .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
             .connectTimeout(30, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
             .build()
-        conntectionTimeoutInterceptor.attach(client)
+        connectionTimeoutInterceptor.attach(client)
         return client
 
     }

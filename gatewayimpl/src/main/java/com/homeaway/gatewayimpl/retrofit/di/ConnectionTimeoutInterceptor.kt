@@ -8,7 +8,7 @@ import java.lang.Exception
 import java.net.SocketTimeoutException
 
 
-class ConntectionTimeoutInterceptor : Interceptor {
+class ConnectionTimeoutInterceptor : Interceptor {
 
     val resetSingnal = PublishSubject.create<Boolean>()
 
