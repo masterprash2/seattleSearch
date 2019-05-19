@@ -2,6 +2,7 @@ package com.homeaway.viewmodel.venue.search
 
 import com.google.auto.factory.AutoFactory
 import com.google.auto.factory.Provided
+import com.homeaway.gateway.FavoriteGateway
 import com.homeaway.gateway.data.Response
 import com.homeaway.interactor.SearchInteractor
 import com.homeaway.interactor.search.VenueListItemData
@@ -14,7 +15,8 @@ import io.reactivex.disposables.Disposable
 @AutoFactory(implementing = [ViewModelFactory::class])
 class VenueSearchViewModel(
     @Provided private val presenter: VenueSearchPresenter,
-    @Provided private val searchInteractor: SearchInteractor
+    @Provided private val searchInteractor: SearchInteractor,
+    @Provided private val favoriteGateway: FavoriteGateway
 ) : BaseViewModel() {
 
     private var searchDisposable: Disposable? = null
@@ -64,7 +66,7 @@ class VenueSearchViewModel(
     private fun transform(data: List<VenueListItemData>): List<VenueListItemModel> {
         val list = ArrayList<VenueListItemModel>()
         for (venue in data) {
-            list.add(VenueListItemModel(venue, itemNavigation))
+            list.add(VenueListItemModel(venue, itemNavigation,favoriteGateway))
         }
         return list
     }

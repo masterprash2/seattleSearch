@@ -1,8 +1,10 @@
 package com.homeaway.seattlesearch.app.di
 
 import android.content.Context
+import com.homeaway.gateway.FavoriteGateway
 import com.homeaway.gateway.LocationGateway
 import com.homeaway.gateway.VenuesGateway
+import com.homeaway.gatewayimpl.FilePersistentFavoriteGateway
 import com.homeaway.gatewayimpl.retrofit.FoursquareApi
 import com.homeaway.seattlesearch.app.SeattleSearchApp
 import com.homeaway.seattlesearch.dev.DevVenuesGateway
@@ -53,6 +55,12 @@ class SeattleSearchAppModule {
             }
 
         }
+    }
+
+    @AppScope
+    @Provides
+    fun favoriteGateway(filePersistentFavoriteGateway: FilePersistentFavoriteGateway) : FavoriteGateway {
+        return filePersistentFavoriteGateway
     }
 
     @AppScope

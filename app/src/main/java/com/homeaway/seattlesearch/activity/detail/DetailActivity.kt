@@ -3,6 +3,8 @@ package com.homeaway.seattlesearch.activity.detail
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -12,6 +14,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
+import com.homeaway.seattlesearch.R
 import com.homeaway.seattlesearch.databinding.ActivityDetailBinding
 import com.homeaway.viewmodel.venue.detail.DetailViewModel
 import dagger.android.support.DaggerAppCompatActivity
@@ -20,8 +23,7 @@ import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 
-class DetailActivity : DaggerAppCompatActivity(), OnMapReadyCallback {
-
+class DetailActivity : DaggerAppCompatActivity() {
 
     @Inject
     lateinit var viewModel: DetailViewModel
@@ -40,30 +42,28 @@ class DetailActivity : DaggerAppCompatActivity(), OnMapReadyCallback {
         compositeDisposable.add(viewModel.viewData().observeVenueLocation().subscribe {
             updateLocation(it.lat, it.lng)
         })
-
+        observeFavoriteUpdates()
+        setSupportActionBar(viewBinding.toolbar)
     }
 
-    private fun updateLocation(lat: Double, lng: Double) {
-        viewBinding.map.getMapAsync {
-            val centerOfCity = MarkerOptions()
-            centerOfCity.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
-            centerOfCity.position(LatLng(47.6062, -122.3321))
-            it.addMarker(centerOfCity)
+    private fun observeFavoriteUpdates() {
+        compositeDisposable.add(viewModel.viewData().observeFavoriteUpdates().subscribe {
+            invalidateOptionsMenu()
+        })
+    }
 
-            val venueMarker = MarkerOptions()
-            venueMarker.position(LatLng(lat, lng))
-            centerOfCity.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
-            it.addMarker(venueMarker)
-            it.moveCamera(
-                CameraUpdateFactory.newLatLngBounds(
-                    LatLngBounds.builder()
-                        .include(venueMarker.position)
-                        .include(centerOfCity.position)
-                        .build()
-                    , 0
-                )
-            )
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_detail, menu)
+        val favorite = menu.findItem(R.id.favorite)
+        favorite.setIcon(if (viewModel.viewData().isFavorite()) R.drawable.favorite_yes else R.drawable.favorite_no)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if(item.itemId == R.id.favorite) {
+            viewModel.toggleFavorite()
         }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onStart() {
@@ -72,18 +72,6 @@ class DetailActivity : DaggerAppCompatActivity(), OnMapReadyCallback {
         viewModel.loadDetails(intent.getStringExtra(BUNDLE_KEY_VENUE_ID))
     }
 
-    private fun setupRecyclerView() {
-        val recyclerView = viewBinding.contentDetail.details;
-        val detailsAdapter = DetailsAdapter(layoutInflater)
-        recyclerView.apply {
-            adapter = detailsAdapter
-            layoutManager = LinearLayoutManager(this@DetailActivity, RecyclerView.VERTICAL, false)
-        }
-        compositeDisposable.add(viewModel.viewData().observeVenueDetails()
-            .observeOn(AndroidSchedulers.mainThread()).subscribe {
-                detailsAdapter.updateWithNewList(it)
-            })
-    }
 
     override fun onResume() {
         super.onResume()
@@ -112,8 +100,44 @@ class DetailActivity : DaggerAppCompatActivity(), OnMapReadyCallback {
         super.onDestroy()
     }
 
-    override fun onMapReady(p0: GoogleMap?) {
+    private fun setupRecyclerView() {
+        val recyclerView = viewBinding.contentDetail.details;
+        val detailsAdapter = DetailsAdapter(layoutInflater)
+        recyclerView.apply {
+            adapter = detailsAdapter
+            layoutManager = LinearLayoutManager(this@DetailActivity, RecyclerView.VERTICAL, false)
+        }
+        compositeDisposable.add(viewModel.viewData().observeVenueDetails()
+            .observeOn(AndroidSchedulers.mainThread()).subscribe {
+                detailsAdapter.updateWithNewList(it)
+            })
     }
+
+
+
+    private fun updateLocation(lat: Double, lng: Double) {
+        viewBinding.map.getMapAsync {
+            val centerOfCity = MarkerOptions()
+            centerOfCity.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
+            centerOfCity.position(LatLng(47.6062, -122.3321))
+            it.addMarker(centerOfCity)
+
+            val venueMarker = MarkerOptions()
+            venueMarker.position(LatLng(lat, lng))
+            centerOfCity.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
+            it.addMarker(venueMarker)
+            it.moveCamera(
+                CameraUpdateFactory.newLatLngBounds(
+                    LatLngBounds.builder()
+                        .include(venueMarker.position)
+                        .include(centerOfCity.position)
+                        .build()
+                    , 0
+                )
+            )
+        }
+    }
+
 
     companion object {
 

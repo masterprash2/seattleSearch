@@ -2,6 +2,7 @@ package com.homeaway.viewmodel.venue.detail
 
 import com.google.auto.factory.AutoFactory
 import com.google.auto.factory.Provided
+import com.homeaway.gateway.FavoriteGateway
 import com.homeaway.interactor.VenueDetailsInteractor
 import com.homeaway.interactor.detail.VenueDetailData
 import com.homeaway.viewmodel.venue.BaseViewModel
@@ -16,10 +17,12 @@ import java.util.*
 class DetailViewModel(
     @Provided private val presenter: DetailPresenter,
     @Provided private val detailInteractor: VenueDetailsInteractor,
-    @Provided private val navigation: DetailViewNavigation
+    @Provided private val navigation: DetailViewNavigation,
+    @Provided private val favoriteGateway: FavoriteGateway
 ) : BaseViewModel() {
 
     private var detailRequest: Disposable? = null
+    private var favoriteUpdates: Disposable? = null
 
     private val itemNavigation = object : DetailItemNavigation {
 
@@ -28,7 +31,17 @@ class DetailViewModel(
         }
     }
 
+    private fun observeFavoriteUpdates(venueId: String) {
+        presenter.updateVenueId(venueId)
+        favoriteUpdates?.dispose()
+        favoriteUpdates = favoriteGateway.venueFavoriteUpdates(venueId).subscribe {
+            presenter.updateFavoriteStatus(it)
+        }
+        add(favoriteUpdates!!)
+    }
+
     fun loadDetails(venueId: String) {
+        observeFavoriteUpdates(venueId)
         presenter.showLoading()
         detailRequest?.dispose()
         detailRequest = detailInteractor.getVenueDeatils(venueId).subscribe {
@@ -47,11 +60,19 @@ class DetailViewModel(
         list.add(DetailItemModel("Address:", venueDetailData.toDisplayAddress(), Type.KEY_VALUE, itemNavigation))
         if (!venueDetailData.webLink.isNullOrEmpty())
             list.add(DetailItemModel("Web Link:", venueDetailData.webLink!!, Type.WEB_LINK, itemNavigation))
-        presenter.handleSuccess(list,venueDetailData.location)
+        presenter.handleSuccess(list, venueDetailData.location)
     }
 
-    fun viewData() : DetailViewData {
+    fun viewData(): DetailViewData {
         return presenter.viewData
+    }
+
+    fun toggleFavorite() {
+        if (viewData().isFavorite()) {
+            favoriteGateway.removeFromFavorites(viewData().venueId)
+        } else {
+            favoriteGateway.addToFavorites(viewData().venueId)
+        }
     }
 
 

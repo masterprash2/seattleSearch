@@ -1,0 +1,8 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+      tools:context="com.homeaway.seattlesearch.activity.MainActivity">
+    <item android:id="@+id/favorite"
+          android:title="@string/add_to_favorites"
+          android:icon="@drawable/favorite_no"
+          app:showAsAction="always"/>
+</menu>

@@ -12,6 +12,9 @@ class DetailViewData @Inject constructor() : BaseViewData() {
 
     private val venueMapLocation = BehaviorSubject.create<Location>()
     private val venueDetails = BehaviorSubject.create<List<DetailItemModel>>()
+    private val isFavorite = BehaviorSubject.createDefault(false)
+    var venueId : String = ""
+    internal set
 
     internal fun setVenueDetails(value: List<DetailItemModel>) {
         venueDetails.onNext(value)
@@ -19,6 +22,18 @@ class DetailViewData @Inject constructor() : BaseViewData() {
 
     internal fun setVenueLocation(location: Location) {
         venueMapLocation.onNext(location)
+    }
+
+    internal fun setFavorite(isFavorite: Boolean) {
+        this.isFavorite.onNext(isFavorite)
+    }
+
+    fun isFavorite(): Boolean {
+        return isFavorite.value ?: false
+    }
+
+    fun observeFavoriteUpdates() : Observable<Boolean> {
+        return isFavorite;
     }
 
     fun observeVenueLocation(): Observable<Location> {
@@ -33,7 +48,7 @@ class DetailViewData @Inject constructor() : BaseViewData() {
         }
     }
 
-    fun getVenueLocation() : Location? {
+    fun getVenueLocation(): Location? {
         return venueMapLocation.value
     }
 

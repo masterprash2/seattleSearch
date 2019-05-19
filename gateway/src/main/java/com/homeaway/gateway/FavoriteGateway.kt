@@ -5,6 +5,7 @@ import io.reactivex.Observable
 interface FavoriteGateway {
 
     fun addToFavorites(venueId: String)
-    fun venueFavoriteUpdates(): Observable<Boolean>
+    fun removeFromFavorites(venueId: String)
+    fun venueFavoriteUpdates(venueId: String): Observable<Boolean>
 
 }

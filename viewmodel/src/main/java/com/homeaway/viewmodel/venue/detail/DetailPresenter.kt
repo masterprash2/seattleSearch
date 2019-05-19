@@ -8,8 +8,7 @@ import javax.inject.Inject
 class DetailPresenter @Inject constructor(private val data: DetailViewData) : BasePresenter<DetailViewData>(data) {
 
 
-    fun handleSuccess(
-        venueDetailData: List<DetailItemModel>,
+    internal fun handleSuccess(venueDetailData: List<DetailItemModel>,
         location: Location
     ) {
         data.isErrorLoading.set(false)
@@ -17,6 +16,14 @@ class DetailPresenter @Inject constructor(private val data: DetailViewData) : Ba
         data.isContentAvailable.set(true)
         data.setVenueDetails(venueDetailData)
         data.setVenueLocation(location)
+    }
+
+    internal fun updateVenueId(venueId : String) {
+        data.venueId = venueId
+    }
+
+    internal fun updateFavoriteStatus(it: Boolean) {
+        data.setFavorite(it)
     }
 
 
