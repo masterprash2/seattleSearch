@@ -1,9 +1,7 @@
 package com.homeaway.gatewayimpl.retrofit.di
 
 import android.content.Context
-import com.homeaway.gateway.VenuesGateway
 import com.homeaway.gatewayimpl.R
-import com.homeaway.gatewayimpl.VenuesGatewayImpl
 import com.homeaway.gatewayimpl.retrofit.FoursquareApi
 import com.squareup.moshi.Moshi
 import dagger.Module
@@ -21,8 +19,25 @@ class RetrofitModule {
     @Provides
     @RetrofitScope
     fun okhttp(): OkHttpClient {
-        return OkHttpClient.Builder().addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)).build()
+        val conntectionTimeoutInterceptor = ConntectionTimeoutInterceptor()
+
+        val client = OkHttpClient.Builder()
+            .addInterceptor(conntectionTimeoutInterceptor)
+            .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+            .build()
+        val subscribe = conntectionTimeoutInterceptor.resetSingnal.subscribe {
+            try {
+                client.dispatcher().cancelAll()
+                client.connectionPool().evictAll()
+            } catch (e: Exception) {
+            }
+        }
+        return client
+
     }
+
+//    client.dispatcher().cancelAll();
+//    client.connectionPool().evictAll();
 
     @Provides
     @RetrofitScope

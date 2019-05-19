@@ -67,6 +67,10 @@ class DetailViewModel(
         return presenter.viewData
     }
 
+    fun retry() {
+        loadDetails(viewData().venueId)
+    }
+
     fun toggleFavorite() {
         if (viewData().isFavorite()) {
             favoriteGateway.removeFromFavorites(viewData().venueId)

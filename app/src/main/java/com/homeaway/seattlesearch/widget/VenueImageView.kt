@@ -15,7 +15,11 @@ class VenueImageView @JvmOverloads constructor(
     }
 
     fun setImageUrl(imageUrl: String?) {
-        Picasso.get().load(imageUrl).into(this)
+        val into = Picasso.get()
+        into.cancelRequest(this)
+        setImageBitmap(null)
+        if(!imageUrl.isNullOrEmpty())
+            into.load(imageUrl).into(this)
     }
 
 }
