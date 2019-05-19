@@ -32,7 +32,7 @@ class VenuesGatewayImpl @Inject constructor(
             clientId = clientId,
             clientSecret = clientSecret, version = apiVersion,
             params = map
-        ).subscribeOn(backgroundThread)
+        ).subscribeOn(backgroundThread).observeOn(backgroundThread)
             .map { transform(it) }
             .onErrorReturn { Response(false, null, it) }
     }
@@ -44,14 +44,14 @@ class VenuesGatewayImpl @Inject constructor(
             clientSecret = clientSecret,
             clientId = clientId,
             version = apiVersion
-        ).subscribeOn(backgroundThread)
+        ).subscribeOn(backgroundThread).observeOn(backgroundThread)
             .map { transform(it) }
             .onErrorReturn { Response(false, null, it) }
     }
 
     override fun getPhoto(venueId: String): Observable<Response<VenuePhotos>> {
         return foursquareApi.getPhotos(venueId, clientSecret, clientId, apiVersion, "1")
-            .subscribeOn(backgroundThread)
+            .subscribeOn(backgroundThread).observeOn(backgroundThread)
             .map { transform(it) }
             .onErrorReturn { Response(false, null, it) }
     }

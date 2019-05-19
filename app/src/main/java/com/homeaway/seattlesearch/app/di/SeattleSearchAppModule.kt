@@ -15,6 +15,7 @@ import dagger.Provides
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import java.util.concurrent.Executors
 
 @Module
 class SeattleSearchAppModule {
@@ -31,7 +32,7 @@ class SeattleSearchAppModule {
     @AppScope
     @Provides
     fun backgroundThreadScheduler(): Scheduler {
-        return Schedulers.computation()
+        return Schedulers.from(Executors.newFixedThreadPool(3))
     }
 
     @MainThreadScheduler

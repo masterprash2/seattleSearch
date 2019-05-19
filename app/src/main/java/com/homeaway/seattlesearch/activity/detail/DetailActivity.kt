@@ -41,6 +41,7 @@ class DetailActivity : DaggerAppCompatActivity() {
         viewBinding.map.onCreate(savedInstanceState)
         setupRecyclerView()
         viewBinding.contentDetail.data = viewModel.viewData()
+        viewBinding.contentDetail.model = viewModel
         compositeDisposable.add(viewModel.viewData().observeVenueLocation()
             .observeOn(AndroidSchedulers.mainThread()).subscribe {
                 updateLocation(it.lat, it.lng)
