@@ -13,10 +13,10 @@ class LocationGatewayImpl @Inject constructor() : LocationGateway {
         return -122.3321
     }
 
-    override fun calculateDistance(fromLat: Double, fromLong: Double, toLat: Double, toLong: Double): Double {
+    override fun calculateDistanceFromCenter(toLat: Double, toLong: Double): Double {
         val from = Location("From")
-        from.latitude = fromLat
-        from.longitude = fromLong
+        from.latitude = getCityCenterLat()
+        from.longitude = getCityCenterLng()
         val to = Location("TO")
         to.latitude = toLat
         to.longitude = toLong

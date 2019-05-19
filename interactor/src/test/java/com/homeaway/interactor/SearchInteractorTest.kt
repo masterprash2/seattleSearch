@@ -28,7 +28,7 @@ class SearchInteractorTest {
         venuesGateway = Mockito.mock(VenuesGateway::class.java)
         whenever(venuesGateway.appendAuthQuery(any())).thenReturn("appendedPhotoUrl")
         locationGateway = Mockito.mock(LocationGateway::class.java)
-        whenever(locationGateway.calculateDistance(any(), any(), any(), any())).thenReturn(1234.0)
+        whenever(locationGateway.calculateDistanceFromCenter(any(), any(), any(), any())).thenReturn(1234.0)
         interactor = SearchInteractor(venuesGateway, locationGateway)
     }
 
