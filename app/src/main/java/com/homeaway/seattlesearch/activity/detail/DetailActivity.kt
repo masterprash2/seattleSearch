@@ -12,6 +12,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
+import com.homeaway.gateway.LocationGateway
 import com.homeaway.seattlesearch.R
 import com.homeaway.seattlesearch.databinding.ActivityDetailBinding
 import com.homeaway.viewmodel.venue.detail.DetailViewModel
@@ -28,6 +29,9 @@ class DetailActivity : DaggerAppCompatActivity() {
 
     @Inject
     lateinit var viewBinding: ActivityDetailBinding
+
+    @Inject
+    lateinit var locationGateway: LocationGateway
 
     private val compositeDisposable = CompositeDisposable()
 
@@ -117,7 +121,7 @@ class DetailActivity : DaggerAppCompatActivity() {
         viewBinding.map.getMapAsync {
             val centerOfCity = MarkerOptions()
             centerOfCity.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
-            centerOfCity.position(LatLng(47.6062, -122.3321))
+            centerOfCity.position(LatLng(locationGateway.getCityCenterLat(), locationGateway.getCityCenterLng()))
             it.addMarker(centerOfCity)
 
             val venueMarker = MarkerOptions()

@@ -1,6 +1,7 @@
 package com.homeaway.viewmodel.venue.search
 
 import com.homeaway.entity.search.SearchResults
+import com.homeaway.gateway.FavoriteGateway
 import com.homeaway.gateway.LocationGateway
 import com.homeaway.gateway.VenuesGateway
 import com.homeaway.gateway.data.Response
@@ -27,6 +28,7 @@ class VenueSearchViewModelTest {
     lateinit var gateway: VenuesGateway
     lateinit var locationGateway: LocationGateway
     lateinit var navigation: VenueSearchNavigation
+    lateinit var favoriteGateway : FavoriteGateway
 
     @Before
     fun setUp() {
@@ -38,7 +40,9 @@ class VenueSearchViewModelTest {
         searchInteractor = SearchInteractor(gateway, locationGateway)
         navigation = Mockito.mock(VenueSearchNavigation::class.java)
         presenter = VenueSearchPresenter(viewData, navigation)
-        viewModel = VenueSearchViewModel(presenter, searchInteractor)
+        favoriteGateway = Mockito.mock(FavoriteGateway::class.java)
+        whenever(favoriteGateway.venueFavoriteUpdates(any())).thenReturn(Observable.never())
+        viewModel = VenueSearchViewModel(presenter, searchInteractor,favoriteGateway)
 
     }
 

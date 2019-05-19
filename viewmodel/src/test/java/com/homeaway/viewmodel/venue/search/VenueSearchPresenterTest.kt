@@ -1,9 +1,12 @@
 package com.homeaway.viewmodel.venue.search
 
+import com.homeaway.gateway.FavoriteGateway
 import com.homeaway.interactor.search.VenueListItemData
 import com.homeaway.viewmodel.venue.search.item.ItemNavigation
 import com.homeaway.viewmodel.venue.search.item.VenueListItemModel
-import com.nhaarman.mockitokotlin2.verify
+import com.nhaarman.mockitokotlin2.any
+import com.nhaarman.mockitokotlin2.whenever
+import io.reactivex.Observable
 import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
@@ -17,9 +20,12 @@ class VenueSearchPresenterTest {
     lateinit var viewData: VenueSearchViewData
     lateinit var navigation: VenueSearchNavigation
     lateinit var itemNavigation: ItemNavigation
+    lateinit var favoriteGateway: FavoriteGateway
 
     @Before
     fun setUp() {
+        favoriteGateway = Mockito.mock(FavoriteGateway::class.java)
+        whenever(favoriteGateway.venueFavoriteUpdates(any())).thenReturn(Observable.never())
         itemNavigation = Mockito.mock(ItemNavigation::class.java)
         viewData = VenueSearchViewData()
         navigation = Mockito.mock(VenueSearchNavigation::class.java)
@@ -98,11 +104,7 @@ class VenueSearchPresenterTest {
     }
 
     private fun createVenue(): List<VenueListItemModel> {
-        return Arrays.asList(VenueListItemModel(createVenueModel(), itemNavigation))
-//
-//        val readFrom = Buffer().readFrom(javaClass.classLoader.getResourceAsStream("valid.json"))
-//        val build = Moshi.Builder().build()
-//        return build.adapter(SearchResults::class.java).fromJson(readFrom)!!.response.venues
+        return Arrays.asList(VenueListItemModel(createVenueModel(), itemNavigation, favoriteGateway))
     }
 
     private fun createVenueModel(): VenueListItemData {

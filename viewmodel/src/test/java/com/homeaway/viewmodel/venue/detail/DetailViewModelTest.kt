@@ -1,10 +1,12 @@
 package com.homeaway.viewmodel.venue.detail
 
 import com.homeaway.entity.detail.VenueDetails
+import com.homeaway.gateway.FavoriteGateway
 import com.homeaway.gateway.VenuesGateway
 import com.homeaway.gateway.data.Response
 import com.homeaway.interactor.VenueDetailsInteractor
 import com.homeaway.viewmodel.venue.detail.item.Type
+import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import com.squareup.moshi.Moshi
@@ -24,6 +26,7 @@ class DetailViewModelTest {
     lateinit var interactor: VenueDetailsInteractor
     lateinit var venuesGateway: VenuesGateway
     lateinit var navigation: DetailViewNavigation
+    lateinit var favoriteGateway: FavoriteGateway
 
     @Before
     fun setUp() {
@@ -32,7 +35,9 @@ class DetailViewModelTest {
         data = DetailViewData()
         presenter = DetailPresenter(data)
         navigation = Mockito.mock(DetailViewNavigation::class.java)
-        viewModel = DetailViewModel(presenter, interactor, navigation)
+        favoriteGateway = Mockito.mock(FavoriteGateway::class.java)
+        whenever(favoriteGateway.venueFavoriteUpdates(any())).thenReturn(Observable.never())
+        viewModel = DetailViewModel(presenter, interactor, navigation,favoriteGateway)
     }
 
 

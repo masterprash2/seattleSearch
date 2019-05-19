@@ -5,6 +5,7 @@ import com.homeaway.gateway.FavoriteGateway
 import com.homeaway.gateway.LocationGateway
 import com.homeaway.gateway.VenuesGateway
 import com.homeaway.gatewayimpl.FilePersistentFavoriteGateway
+import com.homeaway.gatewayimpl.LocationGatewayImpl
 import com.homeaway.gatewayimpl.VenuesGatewayImpl
 import com.homeaway.gatewayimpl.retrofit.FoursquareApi
 import com.homeaway.seattlesearch.app.SeattleSearchApp
@@ -41,21 +42,8 @@ class SeattleSearchAppModule {
 
 
     @Provides
-    fun locationGateway(): LocationGateway {
-        return object : LocationGateway {
-            override fun getCityCenterLat(): Double {
-                return 47.6062
-            }
-
-            override fun getCityCenterLng(): Double {
-                return -122.3321
-            }
-
-            override fun calculateDistance(fromLat: Double, fromLong: Double, toLat: Double, toLong: Double): Double {
-                return 0.0
-            }
-
-        }
+    fun locationGateway(locationGatewayImpl: LocationGatewayImpl): LocationGateway {
+        return locationGatewayImpl
     }
 
     @AppScope
