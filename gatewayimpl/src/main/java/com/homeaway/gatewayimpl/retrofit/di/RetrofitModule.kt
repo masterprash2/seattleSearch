@@ -11,6 +11,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.util.concurrent.TimeUnit
 
 
 @Module
@@ -24,14 +25,10 @@ class RetrofitModule {
         val client = OkHttpClient.Builder()
             .addInterceptor(conntectionTimeoutInterceptor)
             .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(30, TimeUnit.SECONDS)
             .build()
-        val subscribe = conntectionTimeoutInterceptor.resetSingnal.subscribe {
-            try {
-                client.dispatcher().cancelAll()
-                client.connectionPool().evictAll()
-            } catch (e: Exception) {
-            }
-        }
+        conntectionTimeoutInterceptor.attach(client)
         return client
 
     }

@@ -2,8 +2,11 @@ package com.homeaway.gatewayimpl.retrofit.di
 
 import io.reactivex.subjects.PublishSubject
 import okhttp3.Interceptor
+import okhttp3.OkHttpClient
 import okhttp3.Response
+import java.lang.Exception
 import java.net.SocketTimeoutException
+
 
 class ConntectionTimeoutInterceptor : Interceptor {
 
@@ -23,6 +26,16 @@ class ConntectionTimeoutInterceptor : Interceptor {
 
     private fun resetOkhttpClient() {
         resetSingnal.onNext(true)
+    }
+
+    fun attach(client: OkHttpClient) {
+        val subscribe = resetSingnal.subscribe {
+            try {
+                client.dispatcher().cancelAll()
+                client.connectionPool().evictAll()
+            } catch (e: Exception) {
+            }
+        }
     }
 
 }
