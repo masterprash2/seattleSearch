@@ -1,5 +1,6 @@
 package com.homeaway.viewmodel.venue.detail
 
+import com.homeaway.entity.detail.Location
 import com.homeaway.viewmodel.venue.BasePresenter
 import com.homeaway.viewmodel.venue.detail.item.DetailItemModel
 import javax.inject.Inject
@@ -9,13 +10,13 @@ class DetailPresenter @Inject constructor(private val data: DetailViewData) : Ba
 
     fun handleSuccess(
         venueDetailData: List<DetailItemModel>,
-        mapImageUrl: String
+        location: Location
     ) {
         data.isErrorLoading.set(false)
         data.isLoading.set(false)
         data.isContentAvailable.set(true)
         data.setVenueDetails(venueDetailData)
-        data.venueMapImage.set(mapImageUrl)
+        data.setVenueLocation(location)
     }
 
 

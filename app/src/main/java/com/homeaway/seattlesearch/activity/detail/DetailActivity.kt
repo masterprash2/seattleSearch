@@ -3,12 +3,12 @@ package com.homeaway.seattlesearch.activity.detail
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.os.PersistableBundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
@@ -37,19 +37,32 @@ class DetailActivity : DaggerAppCompatActivity(), OnMapReadyCallback {
         viewBinding.map.onCreate(savedInstanceState)
         setupRecyclerView()
         viewBinding.contentDetail.data = viewModel.viewData()
-        setupMaps()
+        compositeDisposable.add(viewModel.viewData().observeVenueLocation().subscribe {
+            updateLocation(it.lat, it.lng)
+        })
 
     }
 
-    private fun setupMaps() {
+    private fun updateLocation(lat: Double, lng: Double) {
         viewBinding.map.getMapAsync {
-            var markerOptions = MarkerOptions()
-            markerOptions.position(LatLng(47.6062, -122.3321))
-            it.addMarker(markerOptions)
-            markerOptions = MarkerOptions()
-            markerOptions.position(LatLng(47.60621, -122.33207))
-            it.addMarker(markerOptions)
-            it.moveCamera(CameraUpdateFactory.newLatLngBounds(LatLngBounds.builder().include(LatLng(47.6062, -122.3321)).include(LatLng(47.60621, -122.33207)).build(),0))
+            val centerOfCity = MarkerOptions()
+            centerOfCity.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
+            centerOfCity.position(LatLng(47.6062, -122.3321))
+            it.addMarker(centerOfCity)
+
+            val venueMarker = MarkerOptions()
+            venueMarker.position(LatLng(lat, lng))
+            centerOfCity.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
+            it.addMarker(venueMarker)
+            it.moveCamera(
+                CameraUpdateFactory.newLatLngBounds(
+                    LatLngBounds.builder()
+                        .include(venueMarker.position)
+                        .include(centerOfCity.position)
+                        .build()
+                    , 0
+                )
+            )
         }
     }
 

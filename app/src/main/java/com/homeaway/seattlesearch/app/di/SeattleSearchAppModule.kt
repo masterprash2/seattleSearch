@@ -5,6 +5,7 @@ import com.homeaway.gateway.LocationGateway
 import com.homeaway.gateway.MapsGateway
 import com.homeaway.gateway.VenuesGateway
 import com.homeaway.gatewayimpl.GoogleMapsGateway
+import com.homeaway.gatewayimpl.VenuesGatewayImpl
 import com.homeaway.gatewayimpl.retrofit.FoursquareApi
 import com.homeaway.seattlesearch.app.SeattleSearchApp
 import com.homeaway.seattlesearch.dev.DevVenuesGateway
