@@ -31,6 +31,11 @@ class SearchActivity : DaggerAppCompatActivity() {
         setupViewBinding()
         setupToolbar()
         setupRecyclerView()
+        syncViewState()
+    }
+
+    private fun syncViewState() {
+        viewModel.setSearchText(viewModel.getViewData().getSearchText())
     }
 
     private fun setupViewBinding() {

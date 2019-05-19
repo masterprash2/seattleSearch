@@ -33,7 +33,7 @@ class VenueSearchPresenter @Inject constructor(
     private fun updateEmptyResponseText() {
         if (venueSearchViewData.isErrorLoading.get()) {
             venueSearchViewData.emptyMessage.set("Network Error")
-        } else if (venueSearchViewData.getSearchText().isBlank()) {
+        } else if (venueSearchViewData.getSearchText().length < 3) {
             venueSearchViewData.emptyMessage.set("Search Venues")
         } else if (!venueSearchViewData.isContentAvailable.get()) {
             venueSearchViewData.emptyMessage.set("No results found")
@@ -42,7 +42,6 @@ class VenueSearchPresenter @Inject constructor(
 
     fun reset() {
         venueSearchViewData.setResults(Arrays.asList())
-        venueSearchViewData.setSearchText("")
         venueSearchViewData.isLoading.set(false)
         venueSearchViewData.isErrorLoading.set(false)
         venueSearchViewData.isContentAvailable.set(false)

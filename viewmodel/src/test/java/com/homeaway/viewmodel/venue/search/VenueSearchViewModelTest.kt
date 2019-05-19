@@ -34,7 +34,7 @@ class VenueSearchViewModelTest {
     fun setUp() {
         viewData = VenueSearchViewData()
         locationGateway = Mockito.mock(LocationGateway::class.java)
-        whenever(locationGateway.calculateDistanceFromCenter(any(), any(), any(), any())).thenReturn(123.0)
+        whenever(locationGateway.calculateDistanceFromCenter(any(), any())).thenReturn(123.0)
         gateway = Mockito.mock(VenuesGateway::class.java)
         whenever(gateway.appendAuthQuery(any())).thenReturn("")
         searchInteractor = SearchInteractor(gateway, locationGateway)

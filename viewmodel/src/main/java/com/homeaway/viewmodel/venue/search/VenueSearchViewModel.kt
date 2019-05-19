@@ -39,7 +39,7 @@ class VenueSearchViewModel(
     }
 
     private fun search(value: String) {
-        if (value.isBlank()) {
+        if (value.length < 3) {
             presenter.reset()
         } else {
             requestSearch(value)
