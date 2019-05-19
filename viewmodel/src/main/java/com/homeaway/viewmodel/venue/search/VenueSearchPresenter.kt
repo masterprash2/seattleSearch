@@ -57,8 +57,4 @@ class VenueSearchPresenter @Inject constructor(
         venueSearchNavigation.openDetail(venueId)
     }
 
-    fun navigateToMaps() {
-        venueSearchNavigation.showInMaps(viewData.getSearchText())
-    }
-
 }

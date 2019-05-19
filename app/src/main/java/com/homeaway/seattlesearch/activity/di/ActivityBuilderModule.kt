@@ -18,5 +18,4 @@ abstract class ActivityBuilderModule {
     @ContributesAndroidInjector(modules = [DetailActivityModule::class])
     internal abstract fun detailActivity(): DetailActivity
 
-
 }

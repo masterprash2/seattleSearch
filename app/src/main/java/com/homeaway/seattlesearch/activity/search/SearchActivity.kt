@@ -28,10 +28,15 @@ class SearchActivity : DaggerAppCompatActivity() {
         compositeDisposable = CompositeDisposable()
         viewBinding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
-        viewBinding.contentMain.model = viewModel
-        viewBinding.contentMain.data = viewModel.getViewData()
+        setupViewBinding()
         setupToolbar()
         setupRecyclerView()
+    }
+
+    private fun setupViewBinding() {
+        viewBinding.model = viewModel
+        viewBinding.contentMain.model = viewModel
+        viewBinding.contentMain.data = viewModel.getViewData()
     }
 
     private fun setupToolbar() {

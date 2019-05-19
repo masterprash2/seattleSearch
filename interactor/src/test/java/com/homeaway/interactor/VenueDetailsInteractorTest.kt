@@ -52,12 +52,10 @@ class VenueDetailsInteractorTest {
         val response = observe.values().first();
         assertTrue(response.success)
         val venue = networkResp.response.venue
-        assertEquals(venue.name,response.response!!.name)
-        assertEquals(venue.contact,response.response!!.contact)
-        assertEquals(venue.location,response.response!!.location)
-        assertEquals(venue.description,response.response!!.description)
-        assertEquals(venue.url,response.response!!.webLink)
-        assertEquals(venue.id,response.response!!.id)
+        assertEquals(venue.name, response.response!!.name)
+        assertEquals(venue.location, response.response!!.location)
+        assertEquals(venue.shortUrl, response.response!!.webLink)
+        assertEquals(venue.id, response.response!!.id)
     }
 
 

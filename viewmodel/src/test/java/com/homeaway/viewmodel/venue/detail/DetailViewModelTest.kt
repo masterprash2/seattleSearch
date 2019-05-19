@@ -32,7 +32,7 @@ class DetailViewModelTest {
         data = DetailViewData()
         presenter = DetailPresenter(data)
         navigation = Mockito.mock(DetailViewNavigation::class.java)
-        viewModel = DetailViewModel(presenter, interactor,navigation)
+        viewModel = DetailViewModel(presenter, interactor, navigation)
     }
 
 

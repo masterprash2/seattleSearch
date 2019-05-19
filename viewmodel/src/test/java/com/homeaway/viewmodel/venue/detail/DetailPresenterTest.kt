@@ -1,6 +1,9 @@
 package com.homeaway.viewmodel.venue.detail
 
+import com.homeaway.entity.detail.VenueDetails
 import com.homeaway.viewmodel.venue.detail.item.DetailItemModel
+import com.squareup.moshi.Moshi
+import okio.Buffer
 import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
@@ -34,17 +37,25 @@ class DetailPresenterTest {
 
     @Test
     fun handleSuccess() {
+        val location = getResponse().response.venue.location;
         val createDummyResponse = createDummyResponse()
-        presenter.handleSuccess(createDummyResponse, "mapImageUrl")
+        presenter.handleSuccess(createDummyResponse, location)
         assertFalse(data.isLoading.get())
         assertFalse(data.isErrorLoading.get())
         assertTrue(data.getVenueDetails() == createDummyResponse)
-        assertEquals("mapImageUrl",data.venueMapImage.get())
+        assertEquals(location,data.getVenueLocation())
     }
 
 
     private fun createDummyResponse(): List<DetailItemModel> {
         return Arrays.asList()
+    }
+
+
+    fun getResponse(): VenueDetails {
+        val readFrom = Buffer().readFrom(javaClass.classLoader.getResourceAsStream("validdetails.json"))
+        val build = Moshi.Builder().build()
+        return build.adapter(VenueDetails::class.java).fromJson(readFrom)!!
     }
 
 

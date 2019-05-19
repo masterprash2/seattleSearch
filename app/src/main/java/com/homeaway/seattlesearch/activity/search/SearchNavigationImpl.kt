@@ -9,7 +9,5 @@ class SearchNavigationImpl @Inject constructor(private val activity: SearchActiv
         DetailActivity.launch(activity, venueId)
     }
 
-    override fun showInMaps(query: String) {
-    }
 
 }

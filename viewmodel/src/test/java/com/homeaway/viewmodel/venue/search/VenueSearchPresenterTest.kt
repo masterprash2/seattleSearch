@@ -97,14 +97,6 @@ class VenueSearchPresenterTest {
         testReset()
     }
 
-    @Test
-    fun navigateToMaps() {
-        viewData.setSearchText("query")
-        presenter.navigateToMaps()
-        verify(navigation).showInMaps("query")
-    }
-
-
     private fun createVenue(): List<VenueListItemModel> {
         return Arrays.asList(VenueListItemModel(createVenueModel(), itemNavigation))
 //
@@ -118,7 +110,8 @@ class VenueSearchPresenterTest {
             id = "anyId",
             category = "Category",
             name = "name",
-            distance = "Distance"
+            distance = "Distance",
+            photoUrl = ""
         )
     }
 

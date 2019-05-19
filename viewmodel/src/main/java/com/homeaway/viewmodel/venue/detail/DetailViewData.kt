@@ -33,6 +33,10 @@ class DetailViewData @Inject constructor() : BaseViewData() {
         }
     }
 
+    fun getVenueLocation() : Location? {
+        return venueMapLocation.value
+    }
+
     fun observeVenueDetails(): Observable<List<DetailItemModel>> {
         return venueDetails;
     }
