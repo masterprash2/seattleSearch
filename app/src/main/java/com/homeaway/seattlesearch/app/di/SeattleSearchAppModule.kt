@@ -5,6 +5,7 @@ import com.homeaway.gateway.FavoriteGateway
 import com.homeaway.gateway.LocationGateway
 import com.homeaway.gateway.VenuesGateway
 import com.homeaway.gatewayimpl.FilePersistentFavoriteGateway
+import com.homeaway.gatewayimpl.VenuesGatewayImpl
 import com.homeaway.gatewayimpl.retrofit.FoursquareApi
 import com.homeaway.seattlesearch.app.SeattleSearchApp
 import com.homeaway.seattlesearch.dev.DevVenuesGateway
@@ -69,12 +70,12 @@ class SeattleSearchAppModule {
         context: Context,
         foursquareApi: FoursquareApi, @BackgroundThreadScheduler scheduler: Scheduler
     ): VenuesGateway {
-        return DevVenuesGateway(context)
-//        return VenuesGatewayImpl(
-//            context = context,
-//            backgroundThread = scheduler,
-//            foursquareApi = foursquareApi
-//        )
+//        return DevVenuesGateway(context)
+        return VenuesGatewayImpl(
+            context = context,
+            backgroundThread = scheduler,
+            foursquareApi = foursquareApi
+        )
     }
 
 }

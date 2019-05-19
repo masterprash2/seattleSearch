@@ -8,8 +8,6 @@ import android.view.MenuItem
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
@@ -39,9 +37,10 @@ class DetailActivity : DaggerAppCompatActivity() {
         viewBinding.map.onCreate(savedInstanceState)
         setupRecyclerView()
         viewBinding.contentDetail.data = viewModel.viewData()
-        compositeDisposable.add(viewModel.viewData().observeVenueLocation().subscribe {
-            updateLocation(it.lat, it.lng)
-        })
+        compositeDisposable.add(viewModel.viewData().observeVenueLocation()
+            .observeOn(AndroidSchedulers.mainThread()).subscribe {
+                updateLocation(it.lat, it.lng)
+            })
         observeFavoriteUpdates()
         setSupportActionBar(viewBinding.toolbar)
     }
@@ -60,7 +59,7 @@ class DetailActivity : DaggerAppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if(item.itemId == R.id.favorite) {
+        if (item.itemId == R.id.favorite) {
             viewModel.toggleFavorite()
         }
         return super.onOptionsItemSelected(item)
@@ -114,7 +113,6 @@ class DetailActivity : DaggerAppCompatActivity() {
     }
 
 
-
     private fun updateLocation(lat: Double, lng: Double) {
         viewBinding.map.getMapAsync {
             val centerOfCity = MarkerOptions()
@@ -132,7 +130,7 @@ class DetailActivity : DaggerAppCompatActivity() {
                         .include(venueMarker.position)
                         .include(centerOfCity.position)
                         .build()
-                    , 0
+                    , 100
                 )
             )
         }
